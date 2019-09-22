@@ -204,7 +204,7 @@ public:
     };
     
     // Functions
-    void move(char*, int, int);
+    void move(int [8][8], char*, int, int, int[8][8], int [4]);
     int evaluate(int [8][8]);
     int isCheck(int [8][8], int);
     void displayBoard_console();
@@ -214,6 +214,7 @@ public:
 /*
  Function that move the pieces on the board
  Parameters:
+    - 8x8 board
     - char *move = 6 element string containing
         - the move (4 char)
         - the code of the piece to promote in case of promotion (1 char) example: Queen = Q, Knight = N
@@ -222,8 +223,10 @@ public:
         - 1 -> the AI is moving (so the move is correct)
         - 0 -> the player is moving (the move need to be checked)
     - isWhiteMoving: 1 -> white is moving, 0 -> black is moving
+    - 8x8 board for capture en-pasant
+    - lenght 4 array containing the castling rights
 */
-void Board::move(char *move, int isAIMoving, int isWhiteMoving){
+void Board::move(int board[8][8], char *move, int isAIMoving, int isWhiteMoving, int enpasant[8][8], int rights[4]){
     if(isAIMoving == 1){
         // the move is correct
         // the move is in form r1y1r2y2
@@ -233,8 +236,8 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
         int r2 = (int)move[2] - 48;
         int f2 = (int)move[3] - 48;
     
-        this->board[r2][f2] = this->board[r1][f1];
-        this->board[r1][f1] = 0;
+        board[r2][f2] = board[r1][f1];
+        board[r1][f1] = 0;
     }
     else{
         // check the move if is correct
@@ -252,53 +255,53 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
             if(isWhiteMoving == 1){
                 // Remove all the right to capture a white pawn en-pasant
                 for(int j = 0; j < 8; j++)
-                    this->captured_enpasant[3][j] = 0;
+                    enpasant[3][j] = 0;
                 
-                if(this->board[r1][f1] > 0 && this->board[r2][f2] <= 0){
-                    switch (this->board[r1][f1]){
+                if(board[r1][f1] > 0 && board[r2][f2] <= 0){
+                    switch (board[r1][f1]){
                         case 100: // Pawn
                             if(r1 == 1){ // Starting square
-                                if(r2 - r1 == 2 && f1 == f2 && this->board[r1+1][f1] == 0 && this->board[r2][f2] == 0){
+                                if(r2 - r1 == 2 && f1 == f2 && board[r1+1][f1] == 0 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->captured_enpasant[r2][f2] = 1;
+                                    enpasant[r2][f2] = 1;
                                 }
-                                else if(r2 - r1 == 1 && f1 == f2 && this->board[r2][f2] == 0)
+                                else if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && this->board[r2][f2] < 0)
+                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
                                     moveIsCorrect = 1;
                             }
                             else if(r1 == 4){ // En-pasant capture
                                 // Normal moves
-                                if(r2 - r1 == 1 && f1 == f2 && this->board[r2][f2] == 0)
+                                if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && this->board[r2][f2] < 0)
+                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
                                     moveIsCorrect = 1;
                                 // En-pasant captures
-                                else if(r2 - r1 == 1 && f2 - f1 == 1 && this->captured_enpasant[r1][f1+1] == 1 && this->board[r2][f2] == 0){
+                                else if(r2 - r1 == 1 && f2 - f1 == 1 && enpasant[r1][f1+1] == 1 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->board[r1][f1+1] = 0;
+                                    board[r1][f1+1] = 0;
                                 }
-                                else if(r2 - r1 == 1 && f1 - f2 == 1 && this->captured_enpasant[r1][f1-1] == 1 && this->board[r2][f2] == 0){
+                                else if(r2 - r1 == 1 && f1 - f2 == 1 && enpasant[r1][f1-1] == 1 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->board[r1][f1-1] = 0;
+                                    board[r1][f1-1] = 0;
                                 }
                             }
                             else if(r1 == 6){ // Promotion
                                 switch (move[4]) {
                                     case 'N':
-                                        this->board[r1][f1] = 310;
+                                        board[r1][f1] = 310;
                                         break;
                                     
                                     case 'B':
-                                        this->board[r1][f1] = 320;
+                                        board[r1][f1] = 320;
                                         break;
                                         
                                     case 'R':
-                                        this->board[r1][f1] = 500;
+                                        board[r1][f1] = 500;
                                         break;
                                         
                                     case 'Q':
-                                        this->board[r1][f1] = 900;
+                                        board[r1][f1] = 900;
                                         break;
                                         
                                     default:
@@ -307,18 +310,18 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                         break;
                                 }
                                 
-                                if(r2 - r1 == 1 && f1 == f2 && this->board[r2][f2] == 0){
+                                if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
                                 }
-                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && this->board[r2][f2] < 0){
+                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0){
                                     moveIsCorrect = 1;
                                 }
                                 
                             }
                             else{ // Every other rank
-                                if(r2 - r1 == 1 && f1 == f2 && this->board[r2][f2] == 0)
+                                if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && this->board[r2][f2] < 0)
+                                else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
                                     moveIsCorrect = 1;
                             }
                             break;
@@ -335,7 +338,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1 + i*kf] != 0)
+                                    if(board[r1 + i*kr][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -347,16 +350,16 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                         case 500: // Rook
                             // White lose the castling rights
                             if(f1 == 0) // queenside
-                                this->castling_rights[1] = 0;
+                                rights[1] = 0;
                             else if(f1 == 7) //kingside
-                                this->castling_rights[0] = 0;
+                                rights[0] = 0;
                             
                             if(r1 == r2){
                                 int kf = (f2 - f1 > 0) ? 1 : -1;
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(f2 - f1); i++){
-                                    if(this->board[r1][f1 + i*kf] != 0)
+                                    if(board[r1][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -368,7 +371,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1] != 0)
+                                    if(board[r1 + i*kr][f1] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -385,7 +388,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1 + i*kf] != 0)
+                                    if(board[r1 + i*kr][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -398,7 +401,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(f2 - f1); i++){
-                                    if(this->board[r1][f1 + i*kf] != 0)
+                                    if(board[r1][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -410,7 +413,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1] != 0)
+                                    if(board[r1 + i*kr][f1] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -423,48 +426,48 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                             if(abs(r2 - r1) < 2 && abs(f2 - f1) < 2){
                                 moveIsCorrect = 1;
                             }
-                            else if(r2 == 0 && f2 == 6 && this->castling_rights[0] == 1 && this->board[0][5] == 0 && this->board[0][6] == 0){
+                            else if(r2 == 0 && f2 == 6 && rights[0] == 1 && board[0][5] == 0 && board[0][6] == 0){
                                 // Control checks in the way
-                                if(this->isCheck(this->board, 1) == 0){
-                                    this->board[0][4] = 0;
-                                    this->board[0][5] = 1000000;
-                                    if(this->isCheck(this->board, 1) == 0){
-                                        this->board[0][5] = 0;
-                                        this->board[0][6] = 1000000;
-                                        if(this->isCheck(this->board, 1) == 0){
+                                if(this->isCheck(board, 1) == 0){
+                                    board[0][4] = 0;
+                                    board[0][5] = 1000000;
+                                    if(this->isCheck(board, 1) == 0){
+                                        board[0][5] = 0;
+                                        board[0][6] = 1000000;
+                                        if(this->isCheck(board, 1) == 0){
                                             moveIsCorrect = 1;
                                             // Restore king's position
-                                            this->board[0][4] = 1000000;
-                                            this->board[0][6] = 0;
+                                            board[0][4] = 1000000;
+                                            board[0][6] = 0;
                                             // Move the rook
-                                            this->board[0][7] = 0;
-                                            this->board[0][5] = 500;
+                                            board[0][7] = 0;
+                                            board[0][5] = 500;
                                         }
                                     }
                                 }
                             }
-                            else if(r2 == 0 && f2 == 2 && this->castling_rights[1] == 1 && this->board[0][3] == 0 && this->board[0][2] == 0 && this->board[0][1] == 0){
+                            else if(r2 == 0 && f2 == 2 && rights[1] == 1 && board[0][3] == 0 && board[0][2] == 0 && board[0][1] == 0){
                                 // Control checks in the way
-                                if(this->isCheck(this->board,1) == 0){
-                                    this->board[0][4] = 0;
-                                    this->board[0][3] = 1000000;
-                                    if(this->isCheck(this->board,1) == 0){
-                                        this->board[0][3] = 0;
-                                        this->board[0][2] = 1000000;
-                                        if(this->isCheck(this->board,1) == 0){
+                                if(this->isCheck(board,1) == 0){
+                                    board[0][4] = 0;
+                                    board[0][3] = 1000000;
+                                    if(this->isCheck(board,1) == 0){
+                                        board[0][3] = 0;
+                                        board[0][2] = 1000000;
+                                        if(this->isCheck(board,1) == 0){
                                             moveIsCorrect = 1;
                                             // Restore king's position
-                                            this->board[0][4] = 1000000;
-                                            this->board[0][2] = 0;
+                                            board[0][4] = 1000000;
+                                            board[0][2] = 0;
                                             // Move the rook
-                                            this->board[0][0] = 0;
-                                            this->board[0][3] = 500;
+                                            board[0][0] = 0;
+                                            board[0][3] = 500;
                                         }
                                     }
                                 }
                             }
                             // white lose all castling rights
-                            this->castling_rights[0] = this->castling_rights[1] = 0;
+                            rights[0] = rights[1] = 0;
                             
                             break;
                     }
@@ -473,53 +476,53 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
             else{
                 // Remove all the right to capture a black pawn en-pasant
                 for(int j = 0; j < 8; j++)
-                    this->captured_enpasant[3][j] = 0;
+                    enpasant[3][j] = 0;
                 
-                if(this->board[r1][f1] < 0 && this->board[r2][f2] >= 0){
-                    switch (this->board[r1][f1]){
+                if(board[r1][f1] < 0 && board[r2][f2] >= 0){
+                    switch (board[r1][f1]){
                         case -100: // Pawn
                             if(r1 == 6){ // Starting square
-                                if(r2 - r1 == -2 && f1 == f2 && this->board[r1-1][f1] == 0 && this->board[r2][f2] == 0){
+                                if(r2 - r1 == -2 && f1 == f2 && board[r1-1][f1] == 0 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->captured_enpasant[r2][f2] = 1;
+                                    enpasant[r2][f2] = 1;
                                 }
-                                else if(r2 - r1 == -1 && f1 == f2 && this->board[r2][f2] == 0)
+                                else if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && this->board[r2][f2] > 0)
+                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
                                     moveIsCorrect = 1;
                             }
                             else if(r1 == 3){ // En-pasant capture
                                 // Normal moves
-                                if(r2 - r1 == -1 && f1 == f2 && this->board[r2][f2] == 0)
+                                if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && this->board[r2][f2] > 0)
+                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
                                     moveIsCorrect = 1;
                                 // En-pasant captures
-                                else if(r2 - r1 == -1 && f2 - f1 == 1 && this->captured_enpasant[r1][f1+1] == 1 && this->board[r2][f2] == 0){
+                                else if(r2 - r1 == -1 && f2 - f1 == 1 && enpasant[r1][f1+1] == 1 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->board[r1][f1+1] = 0;
+                                    board[r1][f1+1] = 0;
                                 }
-                                else if(r2 - r1 == -1 && f1 - f2 == 1 && this->captured_enpasant[r1][f1-1] == 1 && this->board[r2][f2] == 0){
+                                else if(r2 - r1 == -1 && f1 - f2 == 1 && enpasant[r1][f1-1] == 1 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
-                                    this->board[r1][f1-1] = 0;
+                                    board[r1][f1-1] = 0;
                                 }
                             }
                             else if(r1 == 1){ // Promotion
                                 switch (move[4]) {
                                     case 'N':
-                                        this->board[r1][f1] = -310;
+                                        board[r1][f1] = -310;
                                         break;
                                         
                                     case 'B':
-                                        this->board[r1][f1] = -320;
+                                        board[r1][f1] = -320;
                                         break;
                                         
                                     case 'R':
-                                        this->board[r1][f1] = -500;
+                                        board[r1][f1] = -500;
                                         break;
                                         
                                     case 'Q':
-                                        this->board[r1][f1] = -900;
+                                        board[r1][f1] = -900;
                                         break;
                                         
                                     default:
@@ -528,18 +531,18 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                         break;
                                 }
                                 
-                                if(r2 - r1 == -1 && f1 == f2 && this->board[r2][f2] == 0){
+                                if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0){
                                     moveIsCorrect = 1;
                                 }
-                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && this->board[r2][f2] > 0){
+                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0){
                                     moveIsCorrect = 1;
                                 }
                                 
                             }
                             else{ // Every other rank
-                                if(r2 - r1 == -1 && f1 == f2 && this->board[r2][f2] == 0)
+                                if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
                                     moveIsCorrect = 1;
-                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && this->board[r2][f2] > 0)
+                                else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
                                     moveIsCorrect = 1;
                             }
                             break;
@@ -556,7 +559,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1 + i*kf] != 0)
+                                    if(board[r1 + i*kr][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -568,16 +571,16 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                         case -500: // Rook
                             // White lose the castling rights
                             if(f1 == 0) // queenside
-                                this->castling_rights[3] = 0;
+                                rights[3] = 0;
                             else if(f1 == 7) //kingside
-                                this->castling_rights[2] = 0;
+                                rights[2] = 0;
                             
                             if(r1 == r2){
                                 int kf = (f2 - f1 > 0) ? 1 : -1;
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(f2 - f1); i++){
-                                    if(this->board[r1][f1 + i*kf] != 0)
+                                    if(board[r1][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -589,7 +592,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1] != 0)
+                                    if(board[r1 + i*kr][f1] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -606,7 +609,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1 + i*kf] != 0)
+                                    if(board[r1 + i*kr][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -619,7 +622,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(f2 - f1); i++){
-                                    if(this->board[r1][f1 + i*kf] != 0)
+                                    if(board[r1][f1 + i*kf] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -631,7 +634,7 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                                 int allEmpty = 1;
                                 
                                 for(int i = 1; i < abs(r2 - r1); i++){
-                                    if(this->board[r1 + i*kr][f1] != 0)
+                                    if(board[r1 + i*kr][f1] != 0)
                                         allEmpty = 0;
                                 }
                                 
@@ -644,48 +647,48 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
                             if(abs(r2 - r1) < 2 && abs(f2 - f1) < 2){
                                 moveIsCorrect = 1;
                             }
-                            else if(r2 == 7 && f2 == 6 && this->castling_rights[2] == 1 && this->board[7][5] == 0 && this->board[7][6] == 0){
+                            else if(r2 == 7 && f2 == 6 && rights[2] == 1 && board[7][5] == 0 && board[7][6] == 0){
                                 // Control checks in the way
-                                if(this->isCheck(this->board, 0) == 0){
-                                    this->board[7][4] = 0;
-                                    this->board[7][5] = -1000000;
-                                    if(this->isCheck(this->board, 0) == 0){
-                                        this->board[7][5] = 0;
-                                        this->board[7][6] = -1000000;
-                                        if(this->isCheck(this->board, 0) == 0){
+                                if(this->isCheck(board, 0) == 0){
+                                    board[7][4] = 0;
+                                    board[7][5] = -1000000;
+                                    if(this->isCheck(board, 0) == 0){
+                                        board[7][5] = 0;
+                                        board[7][6] = -1000000;
+                                        if(this->isCheck(board, 0) == 0){
                                             moveIsCorrect = 1;
                                             // Restore king's position
-                                            this->board[7][4] = -1000000;
-                                            this->board[7][6] = 0;
+                                            board[7][4] = -1000000;
+                                            board[7][6] = 0;
                                             // Move the rook
-                                            this->board[7][7] = 0;
-                                            this->board[7][5] = -500;
+                                            board[7][7] = 0;
+                                            board[7][5] = -500;
                                         }
                                     }
                                 }
                             }
-                            else if(r2 == 7 && f2 == 2 && this->castling_rights[3] == 1 && this->board[7][3] == 0 && this->board[7][2] == 0 && this->board[7][1] == 0){
+                            else if(r2 == 7 && f2 == 2 && rights[3] == 1 && board[7][3] == 0 && board[7][2] == 0 && board[7][1] == 0){
                                 // Control checks in the way
-                                if(this->isCheck(this->board, 0) == 0){
-                                    this->board[7][4] = 0;
-                                    this->board[7][3] = -1000000;
-                                    if(this->isCheck(this->board, 0) == 0){
-                                        this->board[7][3] = 0;
-                                        this->board[7][2] = -1000000;
-                                        if(this->isCheck(this->board, 0) == 0){
+                                if(this->isCheck(board, 0) == 0){
+                                    board[7][4] = 0;
+                                    board[7][3] = -1000000;
+                                    if(this->isCheck(board, 0) == 0){
+                                        board[7][3] = 0;
+                                        board[7][2] = -1000000;
+                                        if(this->isCheck(board, 0) == 0){
                                             moveIsCorrect = 1;
                                             // Restore king's position
-                                            this->board[7][4] = -1000000;
-                                            this->board[7][2] = 0;
+                                            board[7][4] = -1000000;
+                                            board[7][2] = 0;
                                             // Move the rook
-                                            this->board[7][0] = 0;
-                                            this->board[7][3] = -500;
+                                            board[7][0] = 0;
+                                            board[7][3] = -500;
                                         }
                                     }
                                 }
                             }
                             // black lose all castling rights
-                            this->castling_rights[2] = this->castling_rights[3] = 0;
+                            rights[2] = rights[3] = 0;
                             
                             break;
                     }
@@ -698,10 +701,10 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
         }
         
         if(moveIsCorrect == 1){
-            this->board[r2][f2] = this->board[r1][f1];
-            this->board[r1][f1] = 0;
+            board[r2][f2] = board[r1][f1];
+            board[r1][f1] = 0;
             
-            if(this->isCheck(this->board, isWhiteMoving) == 1){
+            if(this->isCheck(board, isWhiteMoving) == 1){
                 std::cout << "The move made is illegal!" << std::endl;
                 exit(0);
             }
@@ -717,6 +720,8 @@ void Board::move(char *move, int isAIMoving, int isWhiteMoving){
 // Parameter:
 //      - an 8x8 board
 int Board::evaluate(int board[8][8]){
+    board[0][0] = 0;
+    
     int evaluation = 0;
     
     int pieceValueCount = 0;    // to know when it go in the endgame
