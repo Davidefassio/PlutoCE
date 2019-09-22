@@ -720,8 +720,6 @@ void Board::move(int board[8][8], char *move, int isAIMoving, int isWhiteMoving,
 // Parameter:
 //      - an 8x8 board
 int Board::evaluate(int board[8][8]){
-    board[0][0] = 0;
-    
     int evaluation = 0;
     
     int pieceValueCount = 0;    // to know when it go in the endgame
