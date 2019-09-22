@@ -40,7 +40,7 @@ int main(int argc, const char * argv[]) {
         (turn == 1) ? cout << "White to move: " : cout << "Black to move: ";
         cin >> move;
         
-        board.move(move, 0, turn);
+        board.move(board.board, move, 0, turn, board.captured_enpasant, board.castling_rights);
         turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
         
         cout << "Board evaluation: " <<board.evaluate(board.board) << endl;
@@ -50,7 +50,7 @@ int main(int argc, const char * argv[]) {
         
         cout << "################################" << endl << endl;
     }
-     
+    
     // End
     return 0;
 }
