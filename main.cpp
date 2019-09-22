@@ -25,8 +25,8 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     Board board;
     
-    board.displayBoard_terminal();
-    // board.displayBoard_console();
+    // board.displayBoard_terminal();
+    board.displayBoard_console();
     cout << "################################" << endl << endl;
 
     
@@ -45,8 +45,8 @@ int main(int argc, const char * argv[]) {
         
         cout << "Board evaluation: " <<board.evaluate(board.board) << endl;
         
-        board.displayBoard_terminal();
-        // board.displayBoard_console();
+        // board.displayBoard_terminal();
+        board.displayBoard_console();
         
         cout << "################################" << endl << endl;
     }
