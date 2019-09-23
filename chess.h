@@ -11,6 +11,7 @@
 
 #include <cmath>
 
+
 class Board{
 public:
     // Variables
@@ -206,7 +207,6 @@ public:
     
     // Functions
     void playerMove(int*, char*, int, int*, int*);
-    void AIMove(int*, int, int);
     int evaluate(int*);
     int isCheck(int*, int);
     void displayBoard_console();
@@ -236,58 +236,61 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
     int f2 = (int)move[2] - 97;
     int r2 = (int)move[3] - 49;
     
+    int start = r1*8 + f1;
+    int land = r2*8 + f2;
+    
     // TO FINISH AND TEST
-    if(r1 >= 0 && r1 < 8 && f1 >= 0 && f1 < 8 && r2 >= 0 && r2 < 8 && f2 >= 0 && f2 < 8){
+    if(start >= 0 && start < 64 && land >= 0 && land < 64){
         if(isWhiteMoving == 1){
             // Remove all the right to capture a white pawn en-pasant
             for(int j = 0; j < 8; j++)
-                enpasant[3][j] = 0;
+                enpasant[24 + j] = 0;
             
-            if(board[r1][f1] > 0 && board[r2][f2] <= 0){
-                switch (board[r1][f1]){
+            if(board[start] > 0 && board[land] <= 0){
+                switch (board[start]){
                     case 100: // Pawn
                         if(r1 == 1){ // Starting square
-                            if(r2 - r1 == 2 && f1 == f2 && board[r1+1][f1] == 0 && board[r2][f2] == 0){
+                            if(land - start == 16 && board[start + 8] == 0 && board[land] == 0){
                                 moveIsCorrect = 1;
-                                enpasant[r2][f2] = 1;
+                                enpasant[land] = 1;
                             }
-                            else if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
+                            else if(land - start == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
+                            else if((land - start == 7 || land - start == 9) && board[land] < 0)
                                 moveIsCorrect = 1;
                         }
                         else if(r1 == 4){ // En-pasant capture
                             // Normal moves
-                            if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
+                            if(land - start == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
+                            else if((land - start == 7 || land - start == 9) && board[land] < 0)
                                 moveIsCorrect = 1;
                             // En-pasant captures
-                            else if(r2 - r1 == 1 && f2 - f1 == 1 && enpasant[r1][f1+1] == 1 && board[r2][f2] == 0){
+                            else if(land - start == 9 && enpasant[start + 1] == 1){
                                 moveIsCorrect = 1;
-                                board[r1][f1+1] = 0;
+                                board[start + 1] = 0;
                             }
-                            else if(r2 - r1 == 1 && f1 - f2 == 1 && enpasant[r1][f1-1] == 1 && board[r2][f2] == 0){
+                            else if(land - start == 7 && enpasant[start - 1] == 1){
                                 moveIsCorrect = 1;
-                                board[r1][f1-1] = 0;
+                                board[start - 1] = 0;
                             }
                         }
                         else if(r1 == 6){ // Promotion
                             switch (move[4]) {
                                 case 'N':
-                                    board[r1][f1] = 310;
+                                    board[start] = 310;
                                     break;
                                 
                                 case 'B':
-                                    board[r1][f1] = 320;
+                                    board[start] = 320;
                                     break;
                                     
                                 case 'R':
-                                    board[r1][f1] = 500;
+                                    board[start] = 500;
                                     break;
                                     
                                 case 'Q':
-                                    board[r1][f1] = 900;
+                                    board[start] = 900;
                                     break;
                                     
                                 default:
@@ -296,18 +299,18 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                                     break;
                             }
                             
-                            if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0){
+                            if(land - start == 8 && board[land] == 0){
                                 moveIsCorrect = 1;
                             }
-                            else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0){
+                            else if((land - start == 7 || land - start == 9) && board[land] < 0){
                                 moveIsCorrect = 1;
                             }
                             
                         }
                         else{ // Every other rank
-                            if(r2 - r1 == 1 && f1 == f2 && board[r2][f2] == 0)
+                            if(land - start == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == 1 && abs(f1 - f2) == 1 && board[r2][f2] < 0)
+                            else if((land - start == 7 || land - start == 9) && board[land] < 0)
                                 moveIsCorrect = 1;
                         }
                         break;
@@ -324,7 +327,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1 + i*kf] != 0)
+                                if(board[start + (i*kr*8) + (i*kf)] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -335,9 +338,9 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                     
                     case 500: // Rook
                         // White lose the castling rights
-                        if(f1 == 0) // queenside
+                        if(start == 0) // queenside
                             rights[1] = 0;
-                        else if(f1 == 7) //kingside
+                        else if(start == 7) //kingside
                             rights[0] = 0;
                         
                         if(r1 == r2){
@@ -345,7 +348,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(f2 - f1); i++){
-                                if(board[r1][f1 + i*kf] != 0)
+                                if(board[start + i*kf] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -357,7 +360,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1] != 0)
+                                if(board[start + i*kr*8] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -374,7 +377,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1 + i*kf] != 0)
+                                if(board[start + (i*kr*8) + (i*kf)] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -387,7 +390,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(f2 - f1); i++){
-                                if(board[r1][f1 + i*kf] != 0)
+                                if(board[start + i*kf] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -399,7 +402,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1] != 0)
+                                if(board[start + i*kr*8] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -412,42 +415,42 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                         if(abs(r2 - r1) < 2 && abs(f2 - f1) < 2){
                             moveIsCorrect = 1;
                         }
-                        else if(r2 == 0 && f2 == 6 && rights[0] == 1 && board[0][5] == 0 && board[0][6] == 0){
+                        else if(rights[0] == 1 && land == 6 && board[5] == 0 && board[6] == 0){
                             // Control checks in the way
                             if(this->isCheck(board, 1) == 0){
-                                board[0][4] = 0;
-                                board[0][5] = 1000000;
+                                board[4] = 0;
+                                board[5] = 1000000;
                                 if(this->isCheck(board, 1) == 0){
-                                    board[0][5] = 0;
-                                    board[0][6] = 1000000;
+                                    board[5] = 0;
+                                    board[6] = 1000000;
                                     if(this->isCheck(board, 1) == 0){
                                         moveIsCorrect = 1;
                                         // Restore king's position
-                                        board[0][4] = 1000000;
-                                        board[0][6] = 0;
+                                        board[4] = 1000000;
+                                        board[6] = 0;
                                         // Move the rook
-                                        board[0][7] = 0;
-                                        board[0][5] = 500;
+                                        board[7] = 0;
+                                        board[5] = 500;
                                     }
                                 }
                             }
                         }
-                        else if(r2 == 0 && f2 == 2 && rights[1] == 1 && board[0][3] == 0 && board[0][2] == 0 && board[0][1] == 0){
+                        else if(rights[1] == 1 && land == 2 && board[3] == 0 && board[2] == 0 && board[1] == 0){
                             // Control checks in the way
                             if(this->isCheck(board,1) == 0){
-                                board[0][4] = 0;
-                                board[0][3] = 1000000;
+                                board[4] = 0;
+                                board[3] = 1000000;
                                 if(this->isCheck(board,1) == 0){
-                                    board[0][3] = 0;
-                                    board[0][2] = 1000000;
+                                    board[3] = 0;
+                                    board[2] = 1000000;
                                     if(this->isCheck(board,1) == 0){
                                         moveIsCorrect = 1;
                                         // Restore king's position
-                                        board[0][4] = 1000000;
-                                        board[0][2] = 0;
+                                        board[4] = 1000000;
+                                        board[2] = 0;
                                         // Move the rook
-                                        board[0][0] = 0;
-                                        board[0][3] = 500;
+                                        board[0] = 0;
+                                        board[3] = 500;
                                     }
                                 }
                             }
@@ -459,56 +462,56 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                 }
             }
         }
-        else{
+        else if(isWhiteMoving == 0){
             // Remove all the right to capture a black pawn en-pasant
             for(int j = 0; j < 8; j++)
-                enpasant[3][j] = 0;
+                enpasant[32 + j] = 0;
             
-            if(board[r1][f1] < 0 && board[r2][f2] >= 0){
-                switch (board[r1][f1]){
+            if(board[start] < 0 && board[land] >= 0){
+                switch (board[start]){
                     case -100: // Pawn
                         if(r1 == 6){ // Starting square
-                            if(r2 - r1 == -2 && f1 == f2 && board[r1-1][f1] == 0 && board[r2][f2] == 0){
+                            if(start - land == 16 && board[start - 8] == 0 && board[land] == 0){
                                 moveIsCorrect = 1;
-                                enpasant[r2][f2] = 1;
+                                enpasant[land] = 1;
                             }
-                            else if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
+                            else if(start - land == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
+                            else if((start - land == 7 || start - land == 9) && board[land] > 0)
                                 moveIsCorrect = 1;
                         }
                         else if(r1 == 3){ // En-pasant capture
                             // Normal moves
-                            if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
+                            if(start - land == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
+                            else if((start - land == 7 || start - land == 9) && board[land] > 0)
                                 moveIsCorrect = 1;
                             // En-pasant captures
-                            else if(r2 - r1 == -1 && f2 - f1 == 1 && enpasant[r1][f1+1] == 1 && board[r2][f2] == 0){
+                            else if(start - land == 7 && enpasant[start + 1] == 1){
                                 moveIsCorrect = 1;
-                                board[r1][f1+1] = 0;
+                                board[start + 1] = 0;
                             }
-                            else if(r2 - r1 == -1 && f1 - f2 == 1 && enpasant[r1][f1-1] == 1 && board[r2][f2] == 0){
+                            else if(start - land == 9 && enpasant[start - 1] == 1){
                                 moveIsCorrect = 1;
-                                board[r1][f1-1] = 0;
+                                board[start - 1] = 0;
                             }
                         }
                         else if(r1 == 1){ // Promotion
                             switch (move[4]) {
                                 case 'N':
-                                    board[r1][f1] = -310;
+                                    board[start] = -310;
                                     break;
                                     
                                 case 'B':
-                                    board[r1][f1] = -320;
+                                    board[start] = -320;
                                     break;
                                     
                                 case 'R':
-                                    board[r1][f1] = -500;
+                                    board[start] = -500;
                                     break;
                                     
                                 case 'Q':
-                                    board[r1][f1] = -900;
+                                    board[start] = -900;
                                     break;
                                     
                                 default:
@@ -517,18 +520,18 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                                     break;
                             }
                             
-                            if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0){
+                            if(start - land == 8 && board[land] == 0){
                                 moveIsCorrect = 1;
                             }
-                            else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0){
+                            else if((start - land == 7 || start - land == 9) && board[land] > 0){
                                 moveIsCorrect = 1;
                             }
                             
                         }
                         else{ // Every other rank
-                            if(r2 - r1 == -1 && f1 == f2 && board[r2][f2] == 0)
+                            if(start - land == 8 && board[land] == 0)
                                 moveIsCorrect = 1;
-                            else if(r2 - r1 == -1 && abs(f1 - f2) == 1 && board[r2][f2] > 0)
+                            else if((start - land == 7 || start - land == 9) && board[land] > 0)
                                 moveIsCorrect = 1;
                         }
                         break;
@@ -545,7 +548,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1 + i*kf] != 0)
+                                if(board[start + (i*kr*8) + (i*kf)] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -556,9 +559,9 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                         
                     case -500: // Rook
                         // White lose the castling rights
-                        if(f1 == 0) // queenside
+                        if(start == 56) // queenside
                             rights[3] = 0;
-                        else if(f1 == 7) //kingside
+                        else if(start == 63) //kingside
                             rights[2] = 0;
                         
                         if(r1 == r2){
@@ -566,7 +569,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(f2 - f1); i++){
-                                if(board[r1][f1 + i*kf] != 0)
+                                if(board[start + i*kf] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -578,7 +581,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1] != 0)
+                                if(board[start + i*kr*8] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -595,7 +598,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1 + i*kf] != 0)
+                                if(board[start + (i*kr*8) + (i*kf)] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -608,7 +611,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(f2 - f1); i++){
-                                if(board[r1][f1 + i*kf] != 0)
+                                if(board[start + i*kf] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -620,7 +623,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                             int allEmpty = 1;
                             
                             for(int i = 1; i < abs(r2 - r1); i++){
-                                if(board[r1 + i*kr][f1] != 0)
+                                if(board[start + i*kr*8] != 0)
                                     allEmpty = 0;
                             }
                             
@@ -633,42 +636,42 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
                         if(abs(r2 - r1) < 2 && abs(f2 - f1) < 2){
                             moveIsCorrect = 1;
                         }
-                        else if(r2 == 7 && f2 == 6 && rights[2] == 1 && board[7][5] == 0 && board[7][6] == 0){
+                        else if(rights[2] == 1 && land == 62 && board[61] == 0 && board[62] == 0){
                             // Control checks in the way
                             if(this->isCheck(board, 0) == 0){
-                                board[7][4] = 0;
-                                board[7][5] = -1000000;
+                                board[60] = 0;
+                                board[61] = -1000000;
                                 if(this->isCheck(board, 0) == 0){
-                                    board[7][5] = 0;
-                                    board[7][6] = -1000000;
+                                    board[61] = 0;
+                                    board[62] = -1000000;
                                     if(this->isCheck(board, 0) == 0){
                                         moveIsCorrect = 1;
                                         // Restore king's position
-                                        board[7][4] = -1000000;
-                                        board[7][6] = 0;
+                                        board[60] = -1000000;
+                                        board[62] = 0;
                                         // Move the rook
-                                        board[7][7] = 0;
-                                        board[7][5] = -500;
+                                        board[63] = 0;
+                                        board[61] = -500;
                                     }
                                 }
                             }
                         }
-                        else if(r2 == 7 && f2 == 2 && rights[3] == 1 && board[7][3] == 0 && board[7][2] == 0 && board[7][1] == 0){
+                        else if(rights[3] == 1 && land == 58 && board[59] == 0 && board[58] == 0 && board[57] == 0){
                             // Control checks in the way
                             if(this->isCheck(board, 0) == 0){
-                                board[7][4] = 0;
-                                board[7][3] = -1000000;
+                                board[60] = 0;
+                                board[59] = -1000000;
                                 if(this->isCheck(board, 0) == 0){
-                                    board[7][3] = 0;
-                                    board[7][2] = -1000000;
+                                    board[59] = 0;
+                                    board[58] = -1000000;
                                     if(this->isCheck(board, 0) == 0){
                                         moveIsCorrect = 1;
                                         // Restore king's position
-                                        board[7][4] = -1000000;
-                                        board[7][2] = 0;
+                                        board[60] = -1000000;
+                                        board[68] = 0;
                                         // Move the rook
-                                        board[7][0] = 0;
-                                        board[7][3] = -500;
+                                        board[56] = 0;
+                                        board[59] = -500;
                                     }
                                 }
                             }
@@ -687,8 +690,8 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
     }
     
     if(moveIsCorrect == 1){
-        board[r2][f2] = board[r1][f1];
-        board[r1][f1] = 0;
+        board[land] = board[start];
+        board[start] = 0;
         
         if(this->isCheck(board, isWhiteMoving) == 1){
             std::cout << "The move made is illegal!" << std::endl;
@@ -699,10 +702,6 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
         std::cout << "The move made is illegal!" << std::endl;
         exit(0);
     }
-}
-
-void Board::AIMove(int *board, int m1, int m2){
-    
 }
 
 
