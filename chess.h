@@ -9,6 +9,7 @@
 #ifndef chess_h
 #define chess_h
 
+#include <iostream>
 #include <cmath>
 
 
@@ -211,6 +212,9 @@ public:
     int isCheck(int*, int);
     void displayBoard_console();
     void displayBoard_terminal();
+    
+    int tree(int*, int, int*, int*, int);
+    int* copyBoard(int*);
 };
 
 /*
@@ -1165,6 +1169,48 @@ void Board::displayBoard_terminal(){
         std::cout << std::endl;
     }
     std::cout << "  a  b  c  d  e  f  g  h" << std::endl << std::endl;
+}
+
+
+// Generate the tree containing all the possible moves and
+// evaluate the position using minimax
+int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int maxDepth){
+    if(maxDepth > 0){
+        // Generate the next layer of the tree
+        maxDepth--;     // Reduce by 1 the depth
+        int bestMove = 0;   // initialise bestMove
+        
+        if(isWhiteMoving == 1){ // Maximising player
+            bestMove = -1000000000;
+            
+        }
+        else if(isWhiteMoving == 0){ // Minimising player
+            bestMove = 1000000000;
+        }
+        else{
+            std::cout << "Error generating the tree" << std::endl;
+            exit(1);
+        }
+        
+        return bestMove;
+    }
+    else{
+        // This is the base of the tree: return the value of the evaluation
+        return this->evaluate(board);
+    }
+}
+
+
+// Copy the board to a new array
+int* Board::copyBoard(int *board){
+    // Using dynamic allocation so it won't destruct with the return
+    int* temp = NULL;
+    temp = new int[64];
+    
+    for(int i = 0; i < 64; i++)
+        temp[i] = board[i];
+    
+    return temp;
 }
 
 #endif /* chess_h */
