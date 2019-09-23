@@ -25,8 +25,8 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     Board board;
     
-    // board.displayBoard_terminal();
-    board.displayBoard_console();
+    board.displayBoard_terminal();
+    // board.displayBoard_console();
     cout << "################################" << endl << endl;
 
     
@@ -40,13 +40,13 @@ int main(int argc, const char * argv[]) {
         (turn == 1) ? cout << "White to move: " : cout << "Black to move: ";
         cin >> move;
         
-        board.move(board.board, move, 0, turn, board.captured_enpasant, board.castling_rights);
+        board.playerMove(board.board, move, turn, board.captured_enpasant, board.castling_rights);
         turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
         
         cout << "Board evaluation: " <<board.evaluate(board.board) << endl;
         
-        // board.displayBoard_terminal();
-        board.displayBoard_console();
+        board.displayBoard_terminal();
+        // board.displayBoard_console();
         
         cout << "################################" << endl << endl;
     }
