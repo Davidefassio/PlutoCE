@@ -11,7 +11,6 @@
 
 #include <cmath>
 
-
 class Board{
 public:
     // Variables
