@@ -10,7 +10,6 @@
 #define chess_h
 
 #include <iostream>
-#include <cmath>
 
 
 class Board{
@@ -19,14 +18,14 @@ public:
     
     // Pieces and the board
     const int whitePawn = 100;
-    const int whiteKnight = 310; // Add the reamining point in the table
+    const int whiteKnight = 310;
     const int whiteBishop = 320;
     const int whiteRook = 500;
     const int whiteQueen = 900;
     const int whiteKing = 1000000;
     
     const int blackPawn = -100;
-    const int blackKnight = -310; // Subtract the reamining point in the table
+    const int blackKnight = -310;
     const int blackBishop = -320;
     const int blackRook = -500;
     const int blackQueen = -900;
@@ -213,8 +212,9 @@ public:
     void displayBoard_console();
     void displayBoard_terminal();
     
+    // int* treeRoot(int*, int, int*, int*, int); TODO
     int tree(int*, int, int*, int*, int);
-    int* copyBoard(int*);
+    int* copyArr(int*, int);
 };
 
 /*
@@ -243,8 +243,7 @@ void Board::playerMove(int *board, char *move, int isWhiteMoving, int *enpasant,
     int start = r1*8 + f1;
     int land = r2*8 + f2;
     
-    // TO FINISH AND TEST
-    if(start >= 0 && start < 64 && land >= 0 && land < 64){
+    if(r1 >= 0 && r1 < 8 && f1 >= 0 && f1 < 8 && r2 >= 0 && r2 < 8 && f2 >= 0 && f2 < 8){
         if(isWhiteMoving == 1){
             // Remove all the right to capture a white pawn en-pasant
             for(int j = 0; j < 8; j++)
@@ -809,7 +808,7 @@ int Board::isCheck(int *board, int isWhiteKing){
         }
         
         int f = index % 8;
-        int r = std::floor(index / 8);
+        int r = (index - f) / 8;
         
         // Check from knights
         if(r+2 >= 0 && r+2 < 8 && f+1 >= 0 && f+1 < 8 && board[index + 17] == -310)
@@ -899,7 +898,7 @@ int Board::isCheck(int *board, int isWhiteKing){
         }
         
         int f = index % 8;
-        int r = std::floor(index / 8);
+        int r = (index - f) / 8;
         
         // Check from knights
         if(r+2 >= 0 && r+2 < 8 && f+1 >= 0 && f+1 < 8 && board[index + 17] == 310)
@@ -984,7 +983,7 @@ int Board::isCheck(int *board, int isWhiteKing){
     return 0;
 }
 
-// Display the board without using colors
+// Display the board using only ASCII characters
 // Compatible with all OS
 void Board::displayBoard_console(){
     for(int i = 7; i >= 0; i--){
@@ -1172,27 +1171,334 @@ void Board::displayBoard_terminal(){
 }
 
 
+// Root of the tree
+// int* Board::treeRoot(int *board, int isWhiteMoving, int *enpasant, int *rights, int maxDepth){}
+
+
 // Generate the tree containing all the possible moves and
 // evaluate the position using minimax
 int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int maxDepth){
     if(maxDepth > 0){
-        // Generate the next layer of the tree
+        // Store here all possible arrays
+        int *temp_board;
+        int *temp_enpasant;
+        int *temp_rights;
+        
         maxDepth--;     // Reduce by 1 the depth
-        int bestMove = 0;   // initialise bestMove
+        int possible_moves = 0;     // Number of possible moves
         
         if(isWhiteMoving == 1){ // Maximising player
-            bestMove = -1000000000;
+            int bestMove = -1000000000; // Evaluation of the best move
+            isWhiteMoving = 0;
             
+            for(int index = 0; index < 64; index++){
+                if(board[index] > 0){
+                    int f = index % 8;
+                    int r = (index - f) / 8;
+                    
+                    switch(board[index]){
+                        case 100:
+                            break;
+                        
+                        case 310:
+                            if(r+2 >= 0 && r+2 < 8 && f+1 >= 0 && f+1 < 8 && board[index + 17] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index + 17] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r+1 >= 0 && r+1 < 8 && f+2 >= 0 && f+2 < 8 && board[index + 10] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index + 10] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r-1 >= 0 && r-1 < 8 && f+2 >= 0 && f+2 < 8 && board[index - 6] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index -6] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r-2 >= 0 && r-2 < 8 && f+1 >= 0 && f+1 < 8 && board[index - 15] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index - 15] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r-2 >= 0 && r-2 < 8 && f-1 >= 0 && f-1 < 8 && board[index - 17] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index - 17] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r-1 >= 0 && r-1 < 8 && f-2 >= 0 && f-2 < 8 && board[index - 10] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index - 10] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r+1 >= 0 && r+1 < 8 && f-2 >= 0 && f-2 < 8 && board[index + 6] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index + 6] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            if(r+2 >= 0 && r+2 < 8 && f-1 >= 0 && f-1 < 8 && board[index + 15] <= 0){
+                                temp_board = this->copyArr(board, 64);
+                                temp_board[index + 15] = temp_board[index];
+                                temp_board[index] = 0;
+                                
+                                if(this->isCheck(temp_board, 1) == 0){
+                                    temp_enpasant = this->copyArr(enpasant, 64);
+                                    temp_rights = this->copyArr(rights, 4);
+                                    
+                                    int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                    possible_moves++;
+                                    
+                                    if(score > bestMove){
+                                        bestMove = score;
+                                    }
+                                    
+                                    delete temp_enpasant;
+                                    delete temp_rights;
+                                }
+                                delete temp_board;
+                            }
+                            break;
+                            
+                        case 320:
+                            for(int i = 1; r + i < 8 && f + i < 8; i++){
+                                if(board[index + 9*i] <= 0){
+                                    temp_board = this->copyArr(board, 64);
+                                    temp_board[index + 9*i] = temp_board[index];
+                                    temp_board[index] = 0;
+                                    
+                                    if(this->isCheck(temp_board, 1) == 0){
+                                        temp_enpasant = this->copyArr(enpasant, 64);
+                                        temp_rights = this->copyArr(rights, 4);
+                                        
+                                        int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                        possible_moves++;
+                                        
+                                        if(score > bestMove){
+                                            bestMove = score;
+                                        }
+                                        
+                                        delete temp_enpasant;
+                                        delete temp_rights;
+                                    }
+                                    delete temp_board;
+                                }
+                                if(board[index + 9*i] > 0)
+                                    break;
+                            }
+                            for(int i = 1; r - i >= 0 && f + i < 8; i++){
+                                if(board[index - 7*i] <= 0){
+                                    temp_board = this->copyArr(board, 64);
+                                    temp_board[index - 7*i] = temp_board[index];
+                                    temp_board[index] = 0;
+                                    
+                                    if(this->isCheck(temp_board, 1) == 0){
+                                        temp_enpasant = this->copyArr(enpasant, 64);
+                                        temp_rights = this->copyArr(rights, 4);
+                                        
+                                        int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                        possible_moves++;
+                                        
+                                        if(score > bestMove){
+                                            bestMove = score;
+                                        }
+                                        
+                                        delete temp_enpasant;
+                                        delete temp_rights;
+                                    }
+                                    delete temp_board;
+                                }
+                                if(board[index - 7*i] > 0)
+                                    break;
+                            }
+                            for(int i = 1; r - i >= 0 && f - i >= 0; i++){
+                                if(board[index - 9*i] <= 0){
+                                    temp_board = this->copyArr(board, 64);
+                                    temp_board[index - 9*i] = temp_board[index];
+                                    temp_board[index] = 0;
+                                    
+                                    if(this->isCheck(temp_board, 1) == 0){
+                                        temp_enpasant = this->copyArr(enpasant, 64);
+                                        temp_rights = this->copyArr(rights, 4);
+                                        
+                                        int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                        possible_moves++;
+                                        
+                                        if(score > bestMove){
+                                            bestMove = score;
+                                        }
+                                        
+                                        delete temp_enpasant;
+                                        delete temp_rights;
+                                    }
+                                    delete temp_board;
+                                }
+                                if(board[index - 9*i] > 0)
+                                    break;
+                            }
+                            for(int i = 1; r + i < 8 && f - i >= 0; i++){
+                                if(board[index + 7*i] <= 0){
+                                    temp_board = this->copyArr(board, 64);
+                                    temp_board[index + 7*i] = temp_board[index];
+                                    temp_board[index] = 0;
+                                    
+                                    if(this->isCheck(temp_board, 1) == 0){
+                                        temp_enpasant = this->copyArr(enpasant, 64);
+                                        temp_rights = this->copyArr(rights, 4);
+                                        
+                                        int score = tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
+                                        possible_moves++;
+                                        
+                                        if(score > bestMove){
+                                            bestMove = score;
+                                        }
+                                        
+                                        delete temp_enpasant;
+                                        delete temp_rights;
+                                    }
+                                    delete temp_board;
+                                }
+                                if(board[index + 7*i] > 0)
+                                    break;
+                            }
+                            break;
+                            
+                        case 500:
+                            break;
+                            
+                        case 900:
+                            break;
+                            
+                        case 1000000:
+                            break;
+                            
+                    }
+                }
+            }
+                                               
+            return bestMove;
         }
         else if(isWhiteMoving == 0){ // Minimising player
-            bestMove = 1000000000;
+            int bestMove = 1000000000;  // Evaluation of the best move
+            isWhiteMoving = 1;
+            
+            return bestMove;
         }
         else{
             std::cout << "Error generating the tree" << std::endl;
             exit(1);
         }
-        
-        return bestMove;
     }
     else{
         // This is the base of the tree: return the value of the evaluation
@@ -1202,13 +1508,13 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
 
 
 // Copy the board to a new array
-int* Board::copyBoard(int *board){
+int* Board::copyArr(int *arr, int lenght){
     // Using dynamic allocation so it won't destruct with the return
     int* temp = NULL;
-    temp = new int[64];
+    temp = new int[lenght];
     
-    for(int i = 0; i < 64; i++)
-        temp[i] = board[i];
+    for(int i = 0; i < lenght; i++)
+        temp[i] = arr[i];
     
     return temp;
 }
