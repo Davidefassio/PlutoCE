@@ -1,0 +1,65 @@
+//
+//  main.cpp
+//  try
+//
+//  Created by Davide Fassio on 18/09/2019.
+//  Copyright © 2019 Davide Fassio. All rights reserved.
+//
+
+#include <iostream>
+#include <time.h>
+// #include <pthread.h>
+using namespace std;
+
+int nodes;
+
+int tree(int, int, int);
+
+int main(int argc, const char * argv[]) {
+    srand((unsigned int) time(0));
+    
+    nodes = 0;
+    
+    cout << tree(6, 10, 1) << endl;
+    cout << nodes << endl;
+    
+    
+    // End
+    return 0;
+}
+
+int tree(int maxDepth, int branching_factor, int isMax){
+    nodes++;
+    
+    if(maxDepth > 0){
+        maxDepth--;
+        
+        if(isMax == 1){
+            int evaluation = -1000000000;
+            isMax = 0;
+            
+            for(int i = 0; i < branching_factor; i++){
+                int score = tree(maxDepth, branching_factor, isMax);
+                if(score > evaluation)
+                    evaluation = score;
+            }
+            return evaluation;
+        }
+        else if(isMax == 0){
+            int evaluation = 1000000000;
+            isMax = 1;
+            
+            for(int i = 0; i < branching_factor; i++){
+                int score = tree(maxDepth, branching_factor, isMax);
+                if(score < evaluation)
+                    evaluation = score;
+            }
+            return evaluation;
+        }
+    }
+    else{
+        int score = rand() % 10;
+        
+        return score;
+    }
+}
