@@ -43,6 +43,8 @@ public:
         -500, -310, -320, -900, -1000000, -320, -310, -500
     };
     
+    int boardCopy[64];
+    
     // Right to castel: 1 = castel is possible, 0 = castel not possible
     // 0: white kingside
     // 1: white queenside
@@ -206,6 +208,7 @@ public:
     };
     
     int treeDepth = 4;  // Default value
+    int bestMoveEvaluation[4]; // evaluation, start, land, promotion
     
     // Functions
     void playerMove(int*, char*, int, int*, int*);  // public
@@ -215,8 +218,7 @@ public:
     void set_treeDepth(int);    // public
     void set_board(int*);   // public
     int* get_board();   // public
-    int get_evaluation();   // public
-    char* get_bestMove();   // public
+    void print_bestMove(int);   // public
     void displayBoard_console();    // public
     void displayBoard_terminal();   // public
     int* treeRoot(int);  // private
@@ -1037,11 +1039,34 @@ void Board::set_board(int* board){
 
 // Get a 64 int array containing the current board state
 int* Board::get_board(){
+    for(int i = 0; i < 64; i++)
+        this->boardCopy[i] = this->board[i];
+    
+    return this->boardCopy;
+}
+
+
+void Board::print_bestMove(int isWhiteMoving){
     int* temp;
+    char move[6];
     
-    temp = this->copyArr(this->board, 64);
+    temp = this->treeRoot(isWhiteMoving);
     
-    return temp;
+    std::cout << "Board evaluation = " << temp[0] / 100.0 << std::endl;
+    
+    int f1 = temp[1] % 8;
+    int r1 = (temp[1] - f1) / 8;
+    int f2 = temp[2] % 8;
+    int r2 = (temp[2] - f2) / 8;
+    
+    // Add the promotions
+    
+    move[0] = (char) (f1 + 97);
+    move[1] = (char) (r1 + 49);
+    move[2] = (char) (f2 + 97);
+    move[3] = (char) (r2 + 49);
+    
+    std::cout << move << std::endl;
 }
 
 
@@ -1245,7 +1270,7 @@ int* Board::treeRoot(int isWhiteMoving){
     int possible_moves = 0;     // Number of possible moves
     
     if(isWhiteMoving == 1){ // Maximising player
-        int bestMove = -1000000000; // Evaluation of the best move
+        this->bestMoveEvaluation[0] = -1000000000; // Evaluation of the best move
         isWhiteMoving = 0;
         
         for(int j = 0; j < 8; j++)
@@ -1271,8 +1296,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1294,8 +1321,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 16;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1315,8 +1344,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1336,8 +1367,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1359,8 +1392,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1380,8 +1415,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1401,8 +1438,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1423,8 +1462,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1445,8 +1486,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1468,8 +1511,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
+                                        this->bestMoveEvaluation[3] = 900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1482,8 +1528,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
+                                        this->bestMoveEvaluation[3] = 500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1496,8 +1545,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
+                                        this->bestMoveEvaluation[3] = 320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1510,8 +1562,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
+                                        this->bestMoveEvaluation[3] = 310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1530,8 +1585,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
+                                        this->bestMoveEvaluation[3] = 900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1544,8 +1602,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
+                                        this->bestMoveEvaluation[3] = 500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1558,8 +1619,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
+                                        this->bestMoveEvaluation[3] = 320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1572,8 +1636,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
+                                        this->bestMoveEvaluation[3] = 310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1592,8 +1659,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
+                                        this->bestMoveEvaluation[3] = 900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1606,8 +1676,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
+                                        this->bestMoveEvaluation[3] = 500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1620,8 +1693,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
+                                        this->bestMoveEvaluation[3] = 320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1634,8 +1710,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
+                                        this->bestMoveEvaluation[3] = 310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -1656,8 +1735,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1677,8 +1758,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1698,8 +1781,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1723,8 +1808,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 17;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1744,8 +1831,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 10;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1765,8 +1854,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 6;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1786,8 +1877,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 15;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1807,8 +1900,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 17;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1828,8 +1923,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 10;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1849,8 +1946,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 6;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1870,8 +1969,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 15;
                                 }
                                 
                                 delete temp_enpasant;
@@ -1895,8 +1996,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1920,8 +2023,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1945,8 +2050,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -1970,8 +2077,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2003,8 +2112,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2028,8 +2139,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2053,8 +2166,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2078,8 +2193,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2106,8 +2223,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2131,8 +2250,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2156,8 +2277,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2181,8 +2304,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2206,8 +2331,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2231,8 +2358,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2256,8 +2385,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2281,8 +2412,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score > bestMove){
-                                        bestMove = score;
+                                    if(score > this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2310,8 +2443,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 8;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2333,8 +2468,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 9;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2356,8 +2493,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 1;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2379,8 +2518,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 7;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2402,8 +2543,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 8;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2425,8 +2568,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 9;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2448,8 +2593,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 1;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2471,8 +2618,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score > bestMove){
-                                    bestMove = score;
+                                if(score > this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 7;
                                 }
                                 
                                 delete temp_enpasant;
@@ -2499,8 +2648,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                             possible_moves++;
                                             
-                                            if(score > bestMove){
-                                                bestMove = score;
+                                            if(score > this->bestMoveEvaluation[0]){
+                                                this->bestMoveEvaluation[0] = score;
+                                                this->bestMoveEvaluation[1] = index;
+                                                this->bestMoveEvaluation[2] = index + 2;
                                             }
                                             
                                             delete temp_enpasant;
@@ -2528,8 +2679,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                             possible_moves++;
                                             
-                                            if(score > bestMove){
-                                                bestMove = score;
+                                            if(score > this->bestMoveEvaluation[0]){
+                                                this->bestMoveEvaluation[0] = score;
+                                                this->bestMoveEvaluation[1] = index;
+                                                this->bestMoveEvaluation[2] = index - 2;
                                             }
                                             
                                             delete temp_enpasant;
@@ -2549,10 +2702,10 @@ int* Board::treeRoot(int isWhiteMoving){
         if(possible_moves == 0 && this->isCheck(this->board, 1) == 0)
             return 0;
         
-        return bestMove;
+        return this->bestMoveEvaluation;
     }
     else if(isWhiteMoving == 0){ // Minimising player
-        int bestMove = 1000000000; // Evaluation of the best move
+        this->bestMoveEvaluation[0] = 1000000000; // Evaluation of the best move
         isWhiteMoving = 1;
         
         for(int j = 0; j < 8; j++)
@@ -2578,8 +2731,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2601,8 +2756,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 16;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2622,8 +2779,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2643,8 +2802,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2666,8 +2827,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2687,8 +2850,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2708,8 +2873,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2730,8 +2897,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2752,8 +2921,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2775,8 +2946,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
+                                        this->bestMoveEvaluation[3] = -900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2789,8 +2963,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
+                                        this->bestMoveEvaluation[3] = -500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2803,8 +2980,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
+                                        this->bestMoveEvaluation[3] = -320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2817,8 +2997,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
+                                        this->bestMoveEvaluation[3] = -310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2837,8 +3020,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
+                                        this->bestMoveEvaluation[3] = -900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2851,8 +3037,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
+                                        this->bestMoveEvaluation[3] = -500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2865,8 +3054,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
+                                        this->bestMoveEvaluation[3] = -320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2879,8 +3071,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
+                                        this->bestMoveEvaluation[3] = -310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2899,8 +3094,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
+                                        this->bestMoveEvaluation[3] = -900;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2913,8 +3111,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
+                                        this->bestMoveEvaluation[3] = -500;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2927,8 +3128,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
+                                        this->bestMoveEvaluation[3] = -320;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2941,8 +3145,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                     score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
+                                        this->bestMoveEvaluation[3] = -310;
                                     }
                                     delete temp_enpasant;
                                     delete temp_rights;
@@ -2963,8 +3170,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8;
                                     }
                                     
                                     delete temp_enpasant;
@@ -2984,8 +3193,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3005,8 +3216,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3030,8 +3243,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 17;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3051,8 +3266,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 10;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3062,7 +3279,7 @@ int* Board::treeRoot(int isWhiteMoving){
                         }
                         if(r-1 >= 0 && r-1 < 8 && f+2 >= 0 && f+2 < 8 && this->board[index - 6] >= 0){
                             temp_board = this->copyArr(this->board, 64);
-                            temp_board[index -6] = temp_board[index];
+                            temp_board[index - 6] = temp_board[index];
                             temp_board[index] = 0;
                             
                             if(this->isCheck(temp_board, 0) == 0){
@@ -3072,8 +3289,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 6;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3093,8 +3312,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 15;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3114,8 +3335,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 17;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3135,8 +3358,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 10;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3156,8 +3381,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 6;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3177,8 +3404,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 15;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3202,8 +3431,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3227,8 +3458,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3252,8 +3485,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3277,8 +3512,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3310,8 +3547,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3335,8 +3574,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3360,8 +3601,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3385,8 +3628,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3413,8 +3658,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3438,8 +3685,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3463,8 +3712,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 9*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3488,8 +3739,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 7*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3513,8 +3766,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3538,8 +3793,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index + i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3563,8 +3820,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - 8*i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3588,8 +3847,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
                                     
-                                    if(score < bestMove){
-                                        bestMove = score;
+                                    if(score < this->bestMoveEvaluation[0]){
+                                        this->bestMoveEvaluation[0] = score;
+                                        this->bestMoveEvaluation[1] = index;
+                                        this->bestMoveEvaluation[2] = index - i;
                                     }
                                     
                                     delete temp_enpasant;
@@ -3617,8 +3878,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 8;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3640,8 +3903,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 9;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3663,8 +3928,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 1;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3686,8 +3953,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 7;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3709,8 +3978,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 8;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3732,8 +4003,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 9;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3755,8 +4028,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index - 1;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3778,8 +4053,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                 possible_moves++;
                                 
-                                if(score < bestMove){
-                                    bestMove = score;
+                                if(score < this->bestMoveEvaluation[0]){
+                                    this->bestMoveEvaluation[0] = score;
+                                    this->bestMoveEvaluation[1] = index;
+                                    this->bestMoveEvaluation[2] = index + 7;
                                 }
                                 
                                 delete temp_enpasant;
@@ -3806,8 +4083,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                             possible_moves++;
                                             
-                                            if(score < bestMove){
-                                                bestMove = score;
+                                            if(score < this->bestMoveEvaluation[0]){
+                                                this->bestMoveEvaluation[0] = score;
+                                                this->bestMoveEvaluation[1] = index;
+                                                this->bestMoveEvaluation[2] = index + 2;
                                             }
                                             
                                             delete temp_enpasant;
@@ -3835,8 +4114,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                             possible_moves++;
                                             
-                                            if(score < bestMove){
-                                                bestMove = score;
+                                            if(score < this->bestMoveEvaluation[0]){
+                                                this->bestMoveEvaluation[0] = score;
+                                                this->bestMoveEvaluation[1] = index;
+                                                this->bestMoveEvaluation[2] = index - 2;
                                             }
                                             
                                             delete temp_enpasant;
@@ -3856,7 +4137,7 @@ int* Board::treeRoot(int isWhiteMoving){
         if(possible_moves == 0 && this->isCheck(this->board, 0) == 0)
             return 0;
         
-        return bestMove;
+        return this->bestMoveEvaluation;
     }
     else{
         std::cout << "Error generating the tree" << std::endl;
