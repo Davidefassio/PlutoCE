@@ -1060,6 +1060,27 @@ void Board::print_bestMove(int isWhiteMoving){
     int r2 = (temp[2] - f2) / 8;
     
     // Add the promotions
+    switch(std::abs(temp[3])){
+        case 310:
+            move[4] = 'N';
+            break;
+            
+        case 320:
+            move[4] = 'B';
+            break;
+            
+        case 500:
+            move[4] = 'R';
+            break;
+            
+        case 900:
+            move[4] = 'Q';
+            break;
+            
+        default:
+            move[4] = NULL;
+            break;
+    }
     
     move[0] = (char) (f1 + 97);
     move[1] = (char) (r1 + 49);
@@ -1259,7 +1280,7 @@ void Board::displayBoard_terminal(){
 
 
 // Root of the tree
-int* Board::treeRoot(int isWhiteMoving){
+int* Board::treeRoot(int isWhiteMoving){    
     // Store here all possible arrays
     int *temp_board;
     int *temp_enpasant;
@@ -1280,7 +1301,7 @@ int* Board::treeRoot(int isWhiteMoving){
             if(this->board[index] > 0){
                 int f = index % 8;
                 int r = (index - f) / 8;
-                
+                                
                 switch(this->board[index]){
                     case 100:
                         if(r == 1){
@@ -2007,7 +2028,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 9*i] > 0)
+                            if(this->board[index + 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -2034,7 +2055,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 7*i] > 0)
+                            if(this->board[index - 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -2061,7 +2082,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 9*i] > 0)
+                            if(this->board[index - 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -2088,17 +2109,12 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 7*i] > 0)
+                            if(this->board[index + 7*i] != 0)
                                 break;
                         }
                         break;
                         
                     case 500:
-                        if(index == 0) // queenside
-                            this->castling_rights[1] = 0;
-                        else if(index == 7) //kingside
-                            this->castling_rights[0] = 0;
-                        
                         for(int i = 1; r + i < 8; i++){
                             if(this->board[index + 8*i] <= 0){
                                 temp_board = this->copyArr(this->board, 64);
@@ -2108,6 +2124,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 1) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 0) // queenside
+                                        temp_rights[1] = 0;
+                                    else if(index == 7) //kingside
+                                        temp_rights[0] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -2123,7 +2144,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 8*i] > 0)
+                            if(this->board[index + 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f + i < 8; i++){
@@ -2135,6 +2156,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 1) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 0) // queenside
+                                        temp_rights[1] = 0;
+                                    else if(index == 7) //kingside
+                                        temp_rights[0] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -2150,7 +2176,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + i] > 0)
+                            if(this->board[index + i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0; i++){
@@ -2162,6 +2188,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 1) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 0) // queenside
+                                        temp_rights[1] = 0;
+                                    else if(index == 7) //kingside
+                                        temp_rights[0] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -2177,7 +2208,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 8*i] > 0)
+                            if(this->board[index - 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f - i >= 0; i++){
@@ -2189,6 +2220,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 1) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 0) // queenside
+                                        temp_rights[1] = 0;
+                                    else if(index == 7) //kingside
+                                        temp_rights[0] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -2204,7 +2240,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - i] > 0)
+                            if(this->board[index - i] != 0)
                                 break;
                         }
                         break;
@@ -2234,7 +2270,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 9*i] > 0)
+                            if(this->board[index + 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -2261,7 +2297,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 7*i] > 0)
+                            if(this->board[index - 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -2288,7 +2324,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 9*i] > 0)
+                            if(this->board[index - 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -2315,7 +2351,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 7*i] > 0)
+                            if(this->board[index + 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8; i++){
@@ -2342,7 +2378,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 8*i] > 0)
+                            if(this->board[index + 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f + i < 8; i++){
@@ -2369,7 +2405,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + i] > 0)
+                            if(this->board[index + i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0; i++){
@@ -2396,7 +2432,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 8*i] > 0)
+                            if(this->board[index - 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f - i >= 0; i++){
@@ -2423,7 +2459,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - i] > 0)
+                            if(this->board[index - i] != 0)
                                 break;
                         }
                         break;
@@ -3442,7 +3478,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 9*i] < 0)
+                            if(this->board[index + 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -3469,7 +3505,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 7*i] < 0)
+                            if(this->board[index - 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -3496,7 +3532,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 9*i] < 0)
+                            if(this->board[index - 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -3523,17 +3559,12 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 7*i] < 0)
+                            if(this->board[index + 7*i] != 0)
                                 break;
                         }
                         break;
                         
                     case -500:
-                        if(index == 56) // queenside
-                            this->castling_rights[3] = 0;
-                        else if(index == 63) //kingside
-                            this->castling_rights[2] = 0;
-                        
                         for(int i = 1; r + i < 8; i++){
                             if(this->board[index + 8*i] >= 0){
                                 temp_board = this->copyArr(this->board, 64);
@@ -3543,6 +3574,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 0) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 56) // queenside
+                                        temp_rights[3] = 0;
+                                    else if(index == 63) //kingside
+                                        temp_rights[2] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -3558,7 +3594,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 8*i] < 0)
+                            if(this->board[index + 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f + i < 8; i++){
@@ -3570,6 +3606,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 0) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 56) // queenside
+                                        temp_rights[3] = 0;
+                                    else if(index == 63) //kingside
+                                        temp_rights[2] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -3585,7 +3626,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + i] < 0)
+                            if(this->board[index + i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0; i++){
@@ -3597,6 +3638,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 0) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 56) // queenside
+                                        temp_rights[3] = 0;
+                                    else if(index == 63) //kingside
+                                        temp_rights[2] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -3612,7 +3658,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 8*i] < 0)
+                            if(this->board[index - 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f - i >= 0; i++){
@@ -3624,6 +3670,11 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(this->isCheck(temp_board, 0) == 0){
                                     temp_enpasant = this->copyArr(this->captured_enpasant, 64);
                                     temp_rights = this->copyArr(this->castling_rights, 4);
+                                    
+                                    if(index == 56) // queenside
+                                        temp_rights[3] = 0;
+                                    else if(index == 63) //kingside
+                                        temp_rights[2] = 0;
                                     
                                     int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                     possible_moves++;
@@ -3639,7 +3690,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - i] < 0)
+                            if(this->board[index - i] != 0)
                                 break;
                         }
                         break;
@@ -3669,7 +3720,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 9*i] < 0)
+                            if(this->board[index + 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -3696,7 +3747,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 7*i] < 0)
+                            if(this->board[index - 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -3723,7 +3774,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 9*i] < 0)
+                            if(this->board[index - 9*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -3750,7 +3801,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 7*i] < 0)
+                            if(this->board[index + 7*i] != 0)
                                 break;
                         }
                         for(int i = 1; r + i < 8; i++){
@@ -3777,7 +3828,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + 8*i] < 0)
+                            if(this->board[index + 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f + i < 8; i++){
@@ -3804,7 +3855,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index + i] < 0)
+                            if(this->board[index + i] != 0)
                                 break;
                         }
                         for(int i = 1; r - i >= 0; i++){
@@ -3831,7 +3882,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - 8*i] < 0)
+                            if(this->board[index - 8*i] != 0)
                                 break;
                         }
                         for(int i = 1; f - i >= 0; i++){
@@ -3858,7 +3909,7 @@ int* Board::treeRoot(int isWhiteMoving){
                                 }
                                 delete temp_board;
                             }
-                            if(this->board[index - i] < 0)
+                            if(this->board[index - i] != 0)
                                 break;
                         }
                         break;
@@ -4818,7 +4869,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 9*i] > 0)
+                                if(board[index + 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -4843,7 +4894,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 7*i] > 0)
+                                if(board[index - 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -4868,7 +4919,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 9*i] > 0)
+                                if(board[index - 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -4893,17 +4944,12 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 7*i] > 0)
+                                if(board[index + 7*i] != 0)
                                     break;
                             }
                             break;
                             
                         case 500:
-                            if(index == 0) // queenside
-                                rights[1] = 0;
-                            else if(index == 7) //kingside
-                                rights[0] = 0;
-                            
                             for(int i = 1; r + i < 8; i++){
                                 if(board[index + 8*i] <= 0){
                                     temp_board = this->copyArr(board, 64);
@@ -4913,6 +4959,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(this->isCheck(temp_board, 1) == 0){
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
+                                        
+                                        if(index == 0) // queenside
+                                            temp_rights[1] = 0;
+                                        else if(index == 7) //kingside
+                                            temp_rights[0] = 0;
                                         
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
@@ -4926,7 +4977,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 8*i] > 0)
+                                if(board[index + 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f + i < 8; i++){
@@ -4939,6 +4990,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 0) // queenside
+                                            temp_rights[1] = 0;
+                                        else if(index == 7) //kingside
+                                            temp_rights[0] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -4951,7 +5007,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + i] > 0)
+                                if(board[index + i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0; i++){
@@ -4964,6 +5020,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 0) // queenside
+                                            temp_rights[1] = 0;
+                                        else if(index == 7) //kingside
+                                            temp_rights[0] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -4976,7 +5037,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 8*i] > 0)
+                                if(board[index - 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f - i >= 0; i++){
@@ -4989,6 +5050,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 0) // queenside
+                                            temp_rights[1] = 0;
+                                        else if(index == 7) //kingside
+                                            temp_rights[0] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -5001,7 +5067,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - i] > 0)
+                                if(board[index - i] != 0)
                                     break;
                             }
                             break;
@@ -5029,7 +5095,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 9*i] > 0)
+                                if(board[index + 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -5054,7 +5120,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 7*i] > 0)
+                                if(board[index - 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -5079,7 +5145,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 9*i] > 0)
+                                if(board[index - 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -5104,7 +5170,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 7*i] > 0)
+                                if(board[index + 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8; i++){
@@ -5129,7 +5195,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 8*i] > 0)
+                                if(board[index + 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f + i < 8; i++){
@@ -5154,7 +5220,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + i] > 0)
+                                if(board[index + i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0; i++){
@@ -5179,7 +5245,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 8*i] > 0)
+                                if(board[index - 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f - i >= 0; i++){
@@ -5204,7 +5270,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - i] > 0)
+                                if(board[index - i] != 0)
                                     break;
                             }
                             break;
@@ -6125,7 +6191,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 9*i] < 0)
+                                if(board[index + 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -6150,7 +6216,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 7*i] < 0)
+                                if(board[index - 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -6175,7 +6241,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 9*i] < 0)
+                                if(board[index - 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -6200,17 +6266,12 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 7*i] < 0)
+                                if(board[index + 7*i] != 0)
                                     break;
                             }
                             break;
                             
                         case -500:
-                            if(index == 56) // queenside
-                                rights[3] = 0;
-                            else if(index == 63) //kingside
-                                rights[2] = 0;
-                            
                             for(int i = 1; r + i < 8; i++){
                                 if(board[index + 8*i] >= 0){
                                     temp_board = this->copyArr(board, 64);
@@ -6220,6 +6281,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(this->isCheck(temp_board, 0) == 0){
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
+                                        
+                                        if(index == 56) // queenside
+                                            temp_rights[3] = 0;
+                                        else if(index == 63) //kingside
+                                            temp_rights[2] = 0;
                                         
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
@@ -6233,7 +6299,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 8*i] < 0)
+                                if(board[index + 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f + i < 8; i++){
@@ -6246,6 +6312,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 56) // queenside
+                                            temp_rights[3] = 0;
+                                        else if(index == 63) //kingside
+                                            temp_rights[2] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -6258,7 +6329,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + i] < 0)
+                                if(board[index + i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0; i++){
@@ -6271,6 +6342,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 56) // queenside
+                                            temp_rights[3] = 0;
+                                        else if(index == 63) //kingside
+                                            temp_rights[2] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -6283,7 +6359,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 8*i] < 0)
+                                if(board[index - 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f - i >= 0; i++){
@@ -6296,6 +6372,11 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         temp_enpasant = this->copyArr(enpasant, 64);
                                         temp_rights = this->copyArr(rights, 4);
                                         
+                                        if(index == 56) // queenside
+                                            temp_rights[3] = 0;
+                                        else if(index == 63) //kingside
+                                            temp_rights[2] = 0;
+                                        
                                         int score = this->tree(temp_board, isWhiteMoving, temp_enpasant, temp_rights, maxDepth);
                                         possible_moves++;
                                         
@@ -6308,7 +6389,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - i] < 0)
+                                if(board[index - i] != 0)
                                     break;
                             }
                             break;
@@ -6336,7 +6417,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 9*i] < 0)
+                                if(board[index + 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f + i < 8; i++){
@@ -6361,7 +6442,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 7*i] < 0)
+                                if(board[index - 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0 && f - i >= 0; i++){
@@ -6386,7 +6467,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 9*i] < 0)
+                                if(board[index - 9*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8 && f - i >= 0; i++){
@@ -6411,7 +6492,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 7*i] < 0)
+                                if(board[index + 7*i] != 0)
                                     break;
                             }
                             for(int i = 1; r + i < 8; i++){
@@ -6436,7 +6517,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + 8*i] < 0)
+                                if(board[index + 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f + i < 8; i++){
@@ -6461,7 +6542,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index + i] < 0)
+                                if(board[index + i] != 0)
                                     break;
                             }
                             for(int i = 1; r - i >= 0; i++){
@@ -6486,7 +6567,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - 8*i] < 0)
+                                if(board[index - 8*i] != 0)
                                     break;
                             }
                             for(int i = 1; f - i >= 0; i++){
@@ -6511,7 +6592,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     }
                                     delete temp_board;
                                 }
-                                if(board[index - i] < 0)
+                                if(board[index - i] != 0)
                                     break;
                             }
                             break;
