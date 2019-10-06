@@ -54,7 +54,7 @@ int main(int argc, const char * argv[]) {
             cout << "################################" << endl << endl;
             
             while(true){
-                (board.isCheck(board.board, turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
                 
                 (turn == 1) ? cout << "White to move: " : cout << "Black to move: ";
                 cin >> move;
@@ -73,7 +73,7 @@ int main(int argc, const char * argv[]) {
             cout << "################################" << endl << endl;
             
             while(true){
-                (board.isCheck(board.board, turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
                 
                 if(turn == 1){
                     cout << "White to move: ";
@@ -96,7 +96,7 @@ int main(int argc, const char * argv[]) {
             cout << "################################" << endl << endl;
             
             while(true){
-                (board.isCheck(board.board, turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
                 
                 if(turn == 0){
                     cout << "White to move: ";
