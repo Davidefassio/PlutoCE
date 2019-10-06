@@ -35,7 +35,7 @@ int main(int argc, const char * argv[]) {
     cout << "Select a board view:" << endl;
     cout << "1. Console (all OS)" << endl;
     cout << "2. Mac OS terminal" << endl;
-    cout << ">";
+    cout << "> ";
     cin >> view;
     cout << endl;
     
@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
     cout << "1. 1 vs 1" << endl;
     cout << "2. 1 vs AI" << endl;
     cout << "3. AI vs 1" << endl;
-    cout << ">";
+    cout << "> ";
     cin >> mode;
     cout << endl;
     
