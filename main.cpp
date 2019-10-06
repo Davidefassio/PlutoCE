@@ -1,9 +1,9 @@
 //
 //  main.cpp
-//  chessAI
+//  PlutoCE
 //
 //  Created by Davide Fassio on 19/09/2019.
-//  Copyright © 2019 Davide Fassio. All rights reserved.
+//  MIT License.
 //
 
 /*
