@@ -1,9 +1,9 @@
 //
 //  chess.h
-//  chessAI
+//  PlutoCE
 //
 //  Created by Davide Fassio on 19/09/2019.
-//  Copyright © 2019 Davide Fassio. All rights reserved.
+//  MIT License.
 //
 
 #ifndef chess_h
