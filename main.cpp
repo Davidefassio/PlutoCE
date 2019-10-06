@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
         board.playerMove(board.board, move, turn, board.captured_enpasant, board.castling_rights);
         turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
         
-        cout << "Board evaluation: " <<board.evaluate(board.board) << endl;
+        board.print_bestMove(turn);
         
         // board.displayBoard_terminal();
         board.displayBoard_console();
