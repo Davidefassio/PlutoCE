@@ -15,7 +15,7 @@
 
 class Board{
 public:
-    // Functions
+    // Public functions
     void move(char*, int);
     void AImove(int);
     int isCheck(int*, int);
