@@ -9,7 +9,7 @@
 /*
  
  To run in the terminal for a better use go in the directory:
- Desktop/Programmazione/C++/chessAI/chessAI
+ ~/Desktop/Programmazione/C++/PlutoCE/PlutoCE
  
  Then write this 2 commands:
  g++ main.cpp -w -o PlutoCE
@@ -19,7 +19,6 @@
 
 #include <iostream>
 #include "chess.h"
-using namespace std;
 
 
 int main(int argc, const char * argv[]) {
@@ -32,52 +31,52 @@ int main(int argc, const char * argv[]) {
     int mode = 0;
     int view = 0;
     
-    cout << "Select a board view:" << endl;
-    cout << "1. Console (all OS)" << endl;
-    cout << "2. Mac OS terminal" << endl;
-    cout << "> ";
-    cin >> view;
-    cout << endl;
+    std::cout << "Select a board view:" << std::endl;
+    std::cout << "1. Console (all OS)" << std::endl;
+    std::cout << "2. Mac OS terminal" << std::endl;
+    std::cout << "> ";
+    std::cin >> view;
+    std::cout << std::endl;
     
-    cout << "Select the mode you want to play:" << endl;
-    cout << "1. 1 vs 1" << endl;
-    cout << "2. 1 vs AI" << endl;
-    cout << "3. AI vs 1" << endl;
-    cout << "> ";
-    cin >> mode;
-    cout << endl;
+    std::cout << "Select the mode you want to play:" << std::endl;
+    std::cout << "1. 1 vs 1" << std::endl;
+    std::cout << "2. 1 vs AI" << std::endl;
+    std::cout << "3. AI vs 1" << std::endl;
+    std::cout << "> ";
+    std::cin >> mode;
+    std::cout << std::endl;
     
     // Start the game
     switch (mode) {
         case 1:
             board.displayBoard(view);
-            cout << "################################" << endl << endl;
+            std::cout << "################################" << std::endl << std::endl;
             
             while(true){
-                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? std::cout << "You are under check" << std::endl : std::cout << "No checks" << std::endl;
                 
-                (turn == 1) ? cout << "White to move: " : cout << "Black to move: ";
-                cin >> move;
+                (turn == 1) ? std::cout << "White to move: " : std::cout << "Black to move: ";
+                std::cin >> move;
                 
                 board.move(move, turn);
                 turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
                 
                 board.displayBoard(view);
                 
-                cout << "################################" << endl << endl;
+                std::cout << "################################" << std::endl << std::endl;
             }
             break;
             
         case 2:
             board.displayBoard(view);
-            cout << "################################" << endl << endl;
+            std::cout << "################################" << std::endl << std::endl;
             
             while(true){
-                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? std::cout << "You are under check" << std::endl : std::cout << "No checks" << std::endl;
                 
                 if(turn == 1){
-                    cout << "White to move: ";
-                    cin >> move;
+                    std::cout << "White to move: ";
+                    std::cin >> move;
                     
                     board.move(move, turn);
                 }
@@ -87,20 +86,20 @@ int main(int argc, const char * argv[]) {
                 turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
                 board.displayBoard(view);
                 
-                cout << "################################" << endl << endl;
+                std::cout << "################################" << std::endl << std::endl;
             }
             break;
             
         case 3:
             board.displayBoard(view);
-            cout << "################################" << endl << endl;
+            std::cout << "################################" << std::endl << std::endl;
             
             while(true){
-                (board.isCheck(board.get_board(), turn) == 1) ? cout << "You are under check" << endl: cout << "No checks" << endl;
+                (board.isCheck(board.get_board(), turn) == 1) ? std::cout << "You are under check" << std::endl : std::cout << "No checks" << std::endl;
                 
                 if(turn == 0){
-                    cout << "White to move: ";
-                    cin >> move;
+                    std::cout << "Black to move: ";
+                    std::cin >> move;
                     
                     board.move(move, turn);
                 }
@@ -110,12 +109,12 @@ int main(int argc, const char * argv[]) {
                 turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
                 board.displayBoard(view);
                 
-                cout << "################################" << endl << endl;
+                std::cout << "################################" << std::endl << std::endl;
             }
             break;
             
         default:
-            cout << "Select an existing mode!" << endl;
+            std::cout << "Select an existing mode!" << std::endl;
             break;
     }
 
