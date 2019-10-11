@@ -231,9 +231,9 @@ private:
  Function that move the pieces on the board
  Parameters:
  - char *move = 6 element string containing
-    - the move (4 char)
-    - the code of the piece to promote in case of promotion (1 char) example: Queen = Q, Knight = N
-    Use capital letters for the promotion
+ - the move (4 char)
+ - the code of the piece to promote in case of promotion (1 char) example: Queen = Q, Knight = N
+ Use capital letters for the promotion
  - isWhiteMoving: 1 -> white is moving, 0 -> black is moving
  */
 void Board::move(char *move, int isWhiteMoving){
@@ -1346,7 +1346,7 @@ int* Board::treeRoot(int isWhiteMoving){
             if(this->board[index] > 0){
                 int f = index % 8;
                 int r = (index - f) / 8;
-                                
+                
                 switch(this->board[index]){
                     case 100:
                         if(r == 1){
@@ -1374,8 +1374,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1405,8 +1407,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1434,8 +1438,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1463,8 +1469,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1494,8 +1502,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1523,8 +1533,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1552,8 +1564,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1582,8 +1596,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1612,8 +1628,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1643,8 +1661,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 8] = 500;
@@ -1666,8 +1686,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 8] = 320;
@@ -1689,8 +1711,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 8] = 310;
@@ -1712,8 +1736,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1741,8 +1767,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 7] = 500;
@@ -1764,8 +1792,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 7] = 320;
@@ -1787,8 +1817,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 7] = 310;
@@ -1810,8 +1842,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1839,8 +1873,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 9] = 500;
@@ -1862,8 +1898,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 9] = 320;
@@ -1885,8 +1923,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index + 9] = 310;
@@ -1908,8 +1948,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1939,8 +1981,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1968,8 +2012,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -1997,8 +2043,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2030,8 +2078,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2059,8 +2109,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2088,8 +2140,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2117,8 +2171,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2146,8 +2202,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2175,8 +2233,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2204,8 +2264,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2233,8 +2295,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2266,8 +2330,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2299,8 +2365,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2332,8 +2400,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2365,8 +2435,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2406,8 +2478,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2444,8 +2518,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2482,8 +2558,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2520,8 +2598,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2556,8 +2636,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2589,8 +2671,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2622,8 +2706,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2655,8 +2741,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2688,8 +2776,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2721,8 +2811,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2754,8 +2846,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2787,8 +2881,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -2824,8 +2920,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2855,8 +2953,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2886,8 +2986,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2917,8 +3019,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2948,8 +3052,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -2979,8 +3085,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3010,8 +3118,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3041,8 +3151,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(alpha < score)
                                     alpha = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3077,8 +3189,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             if(alpha < score)
                                                 alpha = score;
                                             
-                                            if(beta <= alpha)
+                                            if(beta <= alpha){
+                                                delete temp_board;
                                                 return this->bestMoveEvaluation;
+                                            }
                                         }
                                     }
                                     delete temp_board;
@@ -3114,8 +3228,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             if(alpha < score)
                                                 alpha = score;
                                             
-                                            if(beta <= alpha)
+                                            if(beta <= alpha){
+                                                delete temp_board;
                                                 return this->bestMoveEvaluation;
+                                            }
                                         }
                                     }
                                     delete temp_board;
@@ -3172,8 +3288,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3203,8 +3321,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3232,8 +3352,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3261,8 +3383,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3292,8 +3416,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3321,8 +3447,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3350,8 +3478,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3380,8 +3510,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3410,8 +3542,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3441,8 +3575,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 8] = -500;
@@ -3464,8 +3600,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 8] = -320;
@@ -3487,8 +3625,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 8] = -310;
@@ -3510,8 +3650,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3539,8 +3681,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 9] = -500;
@@ -3562,8 +3706,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 9] = -320;
@@ -3585,8 +3731,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 9] = -310;
@@ -3608,8 +3756,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3637,8 +3787,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 7] = -500;
@@ -3660,8 +3812,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 7] = -320;
@@ -3683,8 +3837,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                     
                                     temp_board = this->copyArr(this->board, 64);
                                     temp_board[index - 7] = -310;
@@ -3706,8 +3862,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3737,8 +3895,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3766,8 +3926,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3795,8 +3957,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -3828,8 +3992,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3857,8 +4023,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3886,8 +4054,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3915,8 +4085,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3944,8 +4116,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -3973,8 +4147,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4002,8 +4178,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4031,8 +4209,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4064,8 +4244,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4097,8 +4279,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4130,8 +4314,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4163,8 +4349,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4204,8 +4392,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4242,8 +4432,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4280,8 +4472,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4318,8 +4512,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4354,8 +4550,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4387,8 +4585,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4420,8 +4620,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4453,8 +4655,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4486,8 +4690,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4519,8 +4725,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4552,8 +4760,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4585,8 +4795,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return this->bestMoveEvaluation;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -4622,8 +4834,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4653,8 +4867,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4684,8 +4900,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4715,8 +4933,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4746,8 +4966,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4777,8 +4999,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4808,8 +5032,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4839,8 +5065,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                 if(beta > score)
                                     beta = score;
                                 
-                                if(beta <= alpha)
+                                if(beta <= alpha){
+                                    delete temp_board;
                                     return this->bestMoveEvaluation;
+                                }
                             }
                             delete temp_board;
                         }
@@ -4875,8 +5103,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             if(beta > score)
                                                 beta = score;
                                             
-                                            if(beta <= alpha)
+                                            if(beta <= alpha){
+                                                delete temp_board;
                                                 return this->bestMoveEvaluation;
+                                            }
                                         }
                                     }
                                     delete temp_board;
@@ -4912,8 +5142,10 @@ int* Board::treeRoot(int isWhiteMoving){
                                             if(beta > score)
                                                 beta = score;
                                             
-                                            if(beta <= alpha)
+                                            if(beta <= alpha){
+                                                delete temp_board;
                                                 return this->bestMoveEvaluation;
+                                            }
                                         }
                                     }
                                     delete temp_board;
@@ -4987,8 +5219,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5016,8 +5250,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5043,8 +5279,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5070,8 +5308,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5099,8 +5339,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5126,8 +5368,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5153,8 +5397,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5181,8 +5427,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5209,8 +5457,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5237,8 +5487,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 8] = 500;
@@ -5257,8 +5509,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 8] = 320;
@@ -5277,8 +5531,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 8] = 310;
@@ -5297,8 +5553,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5323,8 +5581,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 7] = 500;
@@ -5343,8 +5603,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 7] = 320;
@@ -5363,8 +5625,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 7] = 310;
@@ -5383,8 +5647,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5409,8 +5675,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 9] = 500;
@@ -5429,8 +5697,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 9] = 320;
@@ -5449,8 +5719,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index + 9] = 310;
@@ -5469,8 +5741,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5498,8 +5772,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5525,8 +5801,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5552,8 +5830,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5583,8 +5863,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5610,8 +5892,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5637,8 +5921,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5664,8 +5950,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5691,8 +5979,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5718,8 +6008,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5745,8 +6037,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5772,8 +6066,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -5803,8 +6099,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5834,8 +6132,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5865,8 +6165,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5896,8 +6198,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5935,8 +6239,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -5971,8 +6277,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6007,8 +6315,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6043,8 +6353,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6077,8 +6389,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6108,8 +6422,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6139,8 +6455,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6170,8 +6488,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6201,8 +6521,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6232,8 +6554,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6263,8 +6587,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6294,8 +6620,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(alpha < score)
                                             alpha = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6329,8 +6657,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6358,8 +6688,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6387,8 +6719,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6416,8 +6750,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6445,8 +6781,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6474,8 +6812,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6503,8 +6843,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6532,8 +6874,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(alpha < score)
                                         alpha = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -6566,8 +6910,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                                 if(alpha < score)
                                                     alpha = score;
                                                 
-                                                if(beta <= alpha)
+                                                if(beta <= alpha){
+                                                    delete temp_board;
                                                     return bestMove;
+                                                }
                                             }
                                         }
                                         delete temp_board;
@@ -6601,8 +6947,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                                 if(alpha < score)
                                                     alpha = score;
                                                 
-                                                if(beta <= alpha)
+                                                if(beta <= alpha){
+                                                    delete temp_board;
                                                     return bestMove;
+                                                }
                                             }
                                         }
                                         delete temp_board;
@@ -6657,8 +7005,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6686,8 +7036,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6713,8 +7065,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6740,8 +7094,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6769,8 +7125,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6796,8 +7154,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6823,8 +7183,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6851,8 +7213,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6879,8 +7243,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6907,8 +7273,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 8] = -500;
@@ -6927,8 +7295,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 8] = -320;
@@ -6947,8 +7317,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 8] = -310;
@@ -6967,8 +7339,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -6993,8 +7367,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 9] = -500;
@@ -7013,8 +7389,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 9] = -320;
@@ -7033,8 +7411,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 9] = -310;
@@ -7053,8 +7433,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7079,8 +7461,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 7] = -500;
@@ -7099,8 +7483,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 7] = -320;
@@ -7119,8 +7505,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                         
                                         temp_board = this->copyArr(board, 64);
                                         temp_board[index - 7] = -310;
@@ -7139,8 +7527,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7168,8 +7558,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7195,8 +7587,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7222,8 +7616,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7253,8 +7649,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7280,8 +7678,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7307,8 +7707,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7334,8 +7736,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7361,8 +7765,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7388,8 +7794,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7415,8 +7823,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7442,8 +7852,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -7473,8 +7885,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7504,8 +7918,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7535,8 +7951,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7566,8 +7984,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7605,8 +8025,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7641,8 +8063,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7677,8 +8101,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7713,8 +8139,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7747,8 +8175,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7778,8 +8208,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7809,8 +8241,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7840,8 +8274,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7871,8 +8307,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7902,8 +8340,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7933,8 +8373,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7964,8 +8406,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                         if(beta > score)
                                             beta = score;
                                         
-                                        if(beta <= alpha)
+                                        if(beta <= alpha){
+                                            delete temp_board;
                                             return bestMove;
+                                        }
                                     }
                                     delete temp_board;
                                 }
@@ -7999,8 +8443,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8028,8 +8474,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8057,8 +8505,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8086,8 +8536,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8115,8 +8567,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8144,8 +8598,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8173,8 +8629,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8202,8 +8660,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                     if(beta > score)
                                         beta = score;
                                     
-                                    if(beta <= alpha)
+                                    if(beta <= alpha){
+                                        delete temp_board;
                                         return bestMove;
+                                    }
                                 }
                                 delete temp_board;
                             }
@@ -8236,8 +8696,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                                 if(beta > score)
                                                     beta = score;
                                                 
-                                                if(beta <= alpha)
+                                                if(beta <= alpha){
+                                                    delete temp_board;
                                                     return bestMove;
+                                                }
                                             }
                                         }
                                         delete temp_board;
@@ -8271,8 +8733,10 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
                                                 if(beta > score)
                                                     beta = score;
                                                 
-                                                if(beta <= alpha)
+                                                if(beta <= alpha){
+                                                    delete temp_board;
                                                     return bestMove;
+                                                }
                                             }
                                         }
                                         delete temp_board;
