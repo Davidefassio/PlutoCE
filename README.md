@@ -7,7 +7,7 @@ This is a really simple chess engine created to be able to do:
 - [x] play 1vs1
 - [x] play 1vsAI
 - [x] play AIvs1 
-- [ ] play AIvsAI 
+- [x] play AIvsAI 
 - [ ] evaluate a given position
 
 
