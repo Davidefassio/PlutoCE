@@ -42,6 +42,7 @@ int main(int argc, const char * argv[]) {
     std::cout << "1. 1 vs 1" << std::endl;
     std::cout << "2. 1 vs AI" << std::endl;
     std::cout << "3. AI vs 1" << std::endl;
+    std::cout << "4. AI vs AI" << std::endl;
     std::cout << "> ";
     std::cin >> mode;
     std::cout << std::endl;
@@ -112,12 +113,28 @@ int main(int argc, const char * argv[]) {
                 std::cout << "################################" << std::endl << std::endl;
             }
             break;
+        
+        case 4:
+            fflush(stdin);
+            
+            while(true){
+                board.AImove(turn);
+                
+                turn = turn == 1 ? 0 : 1; // Change the move from white to black and viceversa
+                board.displayBoard(view);
+                
+                std::cout << "################################" << std::endl << std::endl;
+                
+                std::cout << "Press ENTER to continue...";
+                getchar();
+            }
+            break;
             
         default:
             std::cout << "Select an existing mode!" << std::endl;
             break;
     }
-
+    
     // End
     return 0;
 }
