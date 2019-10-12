@@ -47,10 +47,7 @@ private:
     int boardCopy[64];
     
     // Right to castel: 1 = castel is possible, 0 = castel is not possible
-    // 0: white kingside
-    // 1: white queenside
-    // 2: black kingside
-    // 3: black queenside
+    // 0: white kingside, 1: white queenside, 2: black kingside, 3: black queenside
     int castling_rights[4] = {1, 1, 1, 1};
     
     // Capture en-pasant: 1 = can be captured en pasant, 0 = can't be captured en-pasant
@@ -82,6 +79,7 @@ private:
     int tree(int*, int, int*, int*, int, int, int);
     int* copyArr(int*, int);
 };
+
 
 /*
  Function that move the pieces on the board
@@ -8625,8 +8623,7 @@ int Board::tree(int *board, int isWhiteMoving, int *enpasant, int *rights, int m
 // Copy the board to a new array
 int* Board::copyArr(int *arr, int lenght){
     // Using dynamic allocation so it won't destruct with the return
-    int* temp = NULL;
-    temp = new int[lenght];
+    int* temp = new int[lenght];
     
     for(int i = 0; i < lenght; i++)
         temp[i] = arr[i];
