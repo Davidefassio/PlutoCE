@@ -1106,61 +1106,111 @@ int Board::evaluate(int *board){
         
         // Decide which piece-square table use
         switch (board[k]) {
-            case 0:
+            case 0: {
                 break;
+            }
                 
-            case 100:
+            case 100: {
                 evaluation += this->whitePawn_eval[k];
                 break;
+            }
                 
-            case 310:
+            case 310: {
                 evaluation += this->whiteKnight_eval[k];
                 break;
+            }
                 
-            case 320:
+            case 320: {
                 evaluation += this->whiteBishop_eval[k];
                 break;
+            }
                 
-            case 500:
+            case 500: {
                 evaluation += this->whiteRook_eval[k];
-                break;
                 
-            case 900:
+                // Rook on an open file
+                int f = k % 8;
+                int open_file = 1;
+                
+                for(int i = 0; i < 8; i++){
+                    if(abs(board[i*8 + f]) == 100){
+                        open_file = 0;
+                        break;
+                    }
+                }
+                
+                if(open_file == 1)
+                    evaluation += 10;
+                
+                break;
+            }
+                
+            case 900: {
                 evaluation += this->whiteQueen_eval[k];
                 break;
+            }
                 
-            case 1000000:   // Save the coords for after
+            case 1000000: {   // Save the coords for after
                 whiteKing_index = k;
                 break;
+            }
                 
-            case -100:
+            case -100: {
                 evaluation += this->blackPawn_eval[k];
                 break;
+            }
                 
-            case -310:
+            case -310: {
                 evaluation += this->blackKnight_eval[k];
                 break;
+            }
                 
-            case -320:
+            case -320: {
                 evaluation += this->blackBishop_eval[k];
                 break;
+            }
                 
-            case -500:
+            case -500: {
                 evaluation += this->blackRook_eval[k];
-                break;
                 
-            case -900:
+                // Rook on an open file
+                int f = k % 8;
+                int open_file = 1;
+                
+                for(int i = 0; i < 8; i++){
+                    if(abs(board[i*8 + f]) == 100){
+                        open_file = 0;
+                        break;
+                    }
+                }
+                
+                if(open_file == 1)
+                    evaluation -= 10;
+                
+                break;
+            }
+                
+            case -900: {
                 evaluation += this->blackQueen_eval[k];
                 break;
+            }
                 
-            case -1000000:  // Save the coords for after
+            case -1000000: {  // Save the coords for after
                 blackKing_index = k;
                 break;
+            }
+                
+            default: {
+                std::cout << "Error in evaluating the position!" << std::endl;
+                exit(1);
+                break;
+            }
         }
     }
+    
     // If the sum of the module of all pieces is less than 2003600 we are in the endgame
     // 2003600 is exactly:
-    // 1 King + 1 Queen + 1 Rook + 4 Pawn each
+    // 1 King + 1 Queen + 1 Rook + 4 Pawn each or equivalent
     if(pieceValueCount < 2003600){
         evaluation += this->whiteKing_endGame_eval[whiteKing_index];
         evaluation += this->blackKing_endGame_eval[blackKing_index];
