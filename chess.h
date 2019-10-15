@@ -1131,22 +1131,19 @@ int Board::evaluate(int *board){
             }
                 
             case 500: {
-                evaluation += this->whiteRook_eval[k];
+                // Add 10cp more assiuming is on an opne file
+                evaluation += (this->whiteRook_eval[k] + 10);
                 
                 // Rook on an open file
                 int f = k % 8;
-                int open_file = 1;
                 
                 for(int i = 0; i < 8; i++){
                     if(abs(board[i*8 + f]) == 100){
-                        open_file = 0;
+                        // Subtract 10cp if is not on an open file
+                        evaluation -= 10;
                         break;
                     }
                 }
-                
-                if(open_file == 1)
-                    evaluation += 10;
-                
                 break;
             }
                 
@@ -1177,22 +1174,19 @@ int Board::evaluate(int *board){
             }
                 
             case -500: {
-                evaluation += this->blackRook_eval[k];
+                // Subtract 10cp more assiuming is on an opne file
+                evaluation += (this->blackRook_eval[k] - 10);
                 
                 // Rook on an open file
                 int f = k % 8;
-                int open_file = 1;
                 
                 for(int i = 0; i < 8; i++){
                     if(abs(board[i*8 + f]) == 100){
-                        open_file = 0;
+                        // Add 10cp if is not on an open file
+                        evaluation += 10;
                         break;
                     }
                 }
-                
-                if(open_file == 1)
-                    evaluation -= 10;
-                
                 break;
             }
                 
