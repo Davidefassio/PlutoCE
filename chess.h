@@ -1094,8 +1094,12 @@ void Board::displayBoard(int view){
 int Board::evaluate(int *board){
     int evaluation = 0;
     
-    int pieceValueCount = 0;    // to know when it go in the endgame
-    int whiteKing_index = 0, blackKing_index = 0;
+    // Count the number of pawn per file and initialize to 0
+    int pawnFile_white[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    int pawnFile_black[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    
+    int pieceValueCount = 0;    // To know when it go in the endgame
+    int whiteKing_index = 0, blackKing_index = 0;   // Index of kings
     
     for(int k = 0; k < 64; k++){
         // Add the value of the piece
@@ -1112,6 +1116,7 @@ int Board::evaluate(int *board){
                 
             case 100: {
                 evaluation += this->whitePawn_eval[k];
+                pawnFile_white[k % 8]++;
                 break;
             }
                 
@@ -1157,6 +1162,7 @@ int Board::evaluate(int *board){
                 
             case -100: {
                 evaluation += this->blackPawn_eval[k];
+                pawnFile_black[k % 8]++;
                 break;
             }
                 
@@ -1207,6 +1213,39 @@ int Board::evaluate(int *board){
             }
         }
     }
+    
+    // Evaluate the pawns islands
+    int islandCount_white = 0;
+    int islandCount_black = 0;
+    
+    if(pawnFile_white[0] > 0)
+        islandCount_white++;
+    
+    for(int i = 1; i < 8; i++){
+        if(pawnFile_white[i-1] == 0 && pawnFile_white[i] > 0){
+            islandCount_white++;
+        }
+        if(pawnFile_white[i] > 1){
+            // Double or triple pawn (30cp malus)
+            evaluation -= 30;
+        }
+    }
+    
+    if(pawnFile_black[0] > 0)
+        islandCount_black++;
+    
+    for(int i = 1; i < 8; i++){
+        if(pawnFile_black[i-1] == 0 && pawnFile_black[i] > 0){
+            islandCount_black++;
+        }
+        if(pawnFile_black[i] > 1){
+            // Double or triple pawn (30cp malus)
+            evaluation += 30;
+        }
+    }
+    
+    // Calculate the difference of pawn island and add a malus of 15 cp per each island
+    evaluation += (islandCount_black - islandCount_white)*15;
     
     // If the sum of the module of all pieces is less than 2003600 we are in the endgame
     // 2003600 is exactly:
