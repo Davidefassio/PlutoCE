@@ -3,7 +3,7 @@
 //  PlutoCE
 //
 //  Created by Davide Fassio on 19/09/2019.
-//  MIT License.
+//  GNU GENERAL PUBLIC LICENSE v3.0
 //
 
 /*
