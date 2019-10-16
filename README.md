@@ -1,10 +1,11 @@
+
+# Created by Davide Fassio
+
    _____  __      __         _____ _____
    / __ \/ /_  __/ /_ ____  / ___// ___/  
   / /_/ / / / / / __// __ \/ /   / /__
  / .___/ / /_/ / /__/ /_/ / /___/ /__    
 /_/   /_/\____/____/\____/\____/____/
-
-# Created by Davide Fassio
 
 The name means Pluto chess engine.
 
