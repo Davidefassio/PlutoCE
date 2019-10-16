@@ -1,5 +1,4 @@
 GNU General Public License v3.0
-
 PlutoCE's logo
 
    _____  __      __         _____ _____
