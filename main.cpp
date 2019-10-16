@@ -26,11 +26,14 @@ int main(int argc, const char * argv[]) {
     Board board;
     int turn = 1; // Always starts white
     char move[6];
+ 
+    // Print the logo
+    std::cout << "   _____  __      __         _____ _____\n   / __ \\/ /_  __/ /_ _____ / ___// ___/\n  / /_/ / / / / / __// __  / /   / /__\n / .___/ / /_/ / /__/ /_/ / /___/ /__\n/_/   /_/\\____/____/\\____/\\____/____/" << endl;
     
     // Choose the mode the settings
     int mode = 0;
     int view = 0;
-    
+ 
     std::cout << "Select a board view:" << std::endl;
     std::cout << "1. Console (all OS)" << std::endl;
     std::cout << "2. Mac OS terminal" << std::endl;
