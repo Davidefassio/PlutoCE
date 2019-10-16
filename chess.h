@@ -6,6 +6,24 @@
 //  GNU GENERAL PUBLIC LICENSE v3.0
 //
 
+// Check operating system
+// 0: not defined
+// 1: Mac OS
+// 2: Windows
+// 3: Linux
+#if defined(__APPLE__)
+    #define OS 1
+#elif defined(_WIN32)
+    #define OS 2
+#elif defined(__linux__)
+    #define OS 3
+#endif
+
+#ifndef OS
+    #define OS 0
+#endif
+
+
 #ifndef chess_h
 #define chess_h
 
