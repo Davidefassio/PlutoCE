@@ -917,6 +917,30 @@ void Board::print_bestMove(int isWhiteMoving){
 #define BLACK_DARK   "\x1b[30;42m"
 #define NORMAL       "\x1b[0m"
 
+/*  TODO
+ CHANGE THE DISPLAY
+ 
+ +---+---+---+---+---+---+---+---+
+ | R | N | B | Q | K | B | N | R |
+ +---+---+---+---+---+---+---+---+
+ | P | P | P | P | P | P | P | P |
+ +---+---+---+---+---+---+---+---+
+ |   |   |   |   |   |   |   |   |
+ +---+---+---+---+---+---+---+---+
+ |   |   |   |   |   |   |   |   |
+ +---+---+---+---+---+---+---+---+
+ |   |   |   |   |   |   |   |   |
+ +---+---+---+---+---+---+---+---+
+ |   |   |   |   |   |   |   |   |
+ +---+---+---+---+---+---+---+---+
+ | P | P | P | P | P | P | P | P |
+ +---+---+---+---+---+---+---+---+
+ | R | N | B | Q | K | B | N | R |
+ +---+---+---+---+---+---+---+---+
+ 
+ Better vision also without colors.
+ */
+
 // Display the board
 // Parameter: view mode 1 or 2
 void Board::displayBoard(int view){
